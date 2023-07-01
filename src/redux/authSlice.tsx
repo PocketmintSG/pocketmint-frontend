@@ -1,39 +1,21 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
+import { loginUserAPI } from "src/api/auth";
+import { useLocalStorage } from "src/api/storage";
 import { AuthState, LoginUserCredentials, RegisterUserCredentials, UserCredentials } from "src/types/auth";
 
 const initialState: AuthState = { username: "", email: "", token: "", isAuthenticated: false, loading: false, error: null }
 
-const fakeApiLogin = (credentials: LoginUserCredentials): Promise<{ username: string, email: string, token: string }> => {
-  return new Promise((resolve, reject) => {
-    // Simulate a network delay
-    setTimeout(() => {
-      if (credentials.email === 'test@gmail.com' && credentials.password === 'hehehaha') {
-        console.log("Correct credentials")
-        // Resolve promise after delay, assuming successful login
-        resolve({
-          username: 'Test Username',
-          email: credentials.email,
-          token: 'ABC123',
-        });
-      } else {
-        console.log("Incorrect credentials")
-        // Reject promise after delay, assuming failed login
-        reject(new Error('Invalid email or password'));
-      }
-    }, 2000);
-  });
-};
-
-export const loginUser = createAsyncThunk<UserCredentials, LoginUserCredentials>(
+export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (credentials: LoginUserCredentials, thunkAPI) => {
     console.log("Logging in user")
     console.log(credentials)
     try {
-      const response = await fakeApiLogin(credentials)
+      const response = await loginUserAPI(credentials)
       return response;
     } catch (error) {
-      return thunkAPI.rejectWithValue({ error: error.message });
+      return thunkAPI.rejectWithValue({ error: error instanceof AxiosError ? error.response?.data?.message || error.message : error.message });
     }
   }
 )
@@ -68,13 +50,13 @@ const authSlice = createSlice({
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.username = action.payload.username; // Or whatever data you have in your payload
-      state.email = action.payload.email;
-      state.token = action.payload.token;
+      state.username = action.payload.data.username;
+      state.email = action.payload.data.email;
+      state.token = action.payload.data.token;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload.error;
+      state.error = action.payload?.error;
     });
   }
 });
