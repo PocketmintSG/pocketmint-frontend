@@ -97,7 +97,7 @@ export const Login = () => {
           <p className="text-2xl font-medium">Welcome back</p>
           <p className="text-xl font-normal text-darkGrey-600 whitespace-nowrap">Continue your financial journey with us.</p>
         </div>
-        <ButtonGhost className='font-normal'>
+        <ButtonGhost className='font-normal' onClick={() => triggerWIPNotification("Google Authentication will be added soon!")}>
           <div className="flex flex-row items-center content-center justify-center gap-2">
             <img src="/src/assets/common/logos/GoogleColored.svg" />
             Sign in with Google
