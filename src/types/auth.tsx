@@ -12,7 +12,7 @@ export interface LoginUserCredentials {
 export interface RegisterUserCredentials {
   username: string,
   email: string,
-  password: string
+  password: string,
 }
 
 export interface AuthState {
@@ -23,3 +23,9 @@ export interface AuthState {
   loading: boolean,
   error: null | string,
 };
+
+export interface AuthResultState {
+  isSuccessful: boolean,
+  error: any,
+  code?: string
+}
