@@ -14,3 +14,12 @@ export interface RegisterUserCredentials {
   email: string,
   password: string
 }
+
+export interface AuthState {
+  username: string,
+  email: string,
+  token: string,
+  isAuthenticated: boolean,
+  loading: boolean,
+  error: null | string,
+};
