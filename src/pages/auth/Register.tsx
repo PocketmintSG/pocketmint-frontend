@@ -44,7 +44,7 @@ export const Register = () => {
         console.log("User registered sucessfully")
         Store.addNotification({
           title: `Successfully registered as ${username}!`,
-          message: "Welcome to Pocketmint!",
+          message: "An email has been sent to your address for verification!",
           type: "success",
           insert: "top",
           container: "top-center",
@@ -54,8 +54,8 @@ export const Register = () => {
             duration: 3000
           }
         })
-        navigate("/dashboard")
-      } else if (res.error && res.error.code === "auth/user-not-found") {
+        navigate("/login")
+      } else if (res.error && res.error.code === "auth/email-already-in-use") {
         Store.addNotification({
           title: "User already exists!",
           message: `Did you forget your password?`,

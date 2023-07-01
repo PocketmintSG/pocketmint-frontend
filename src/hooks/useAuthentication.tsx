@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { clearUserData, setUser } from "../redux/authSlice";
@@ -14,6 +14,12 @@ export const useAuthentication = () => {
     setIsLoading(true);
     return signInWithEmailAndPassword(auth, email, password).then((res) => {
       const { user } = res;
+      if (!user.emailVerified) {
+        return {
+          isSuccessful: false,
+          error: Error("User is not verified!")
+        }
+      }
       dispatch(setUser(user))
       return {
         isSuccessful: true,
@@ -32,10 +38,7 @@ export const useAuthentication = () => {
 
   const signUpCall = async ({ username, email, password }: RegisterUserCredentials): Promise<AuthResultState> => {
     setIsLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password).then((res) => {
-      const { user } = res;
-      dispatch(setUser(user))
-    }).then(() => {
+    return createUserWithEmailAndPassword(auth, email, password).then(() => {
       updateProfile(auth.user, {
         displayName: username
       })
@@ -43,6 +46,9 @@ export const useAuthentication = () => {
         isSuccessful: true,
         error: null
       }
+    }).then((res) => {
+      sendEmailVerification(auth.currentUser)
+      return res
     }).catch((err) => {
       console.log(err)
       return {
