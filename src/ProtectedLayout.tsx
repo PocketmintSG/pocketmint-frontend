@@ -1,11 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link, Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "./api/auth";
+import { RootState } from "src/redux/store";
 
 export const ProtectedLayout = () => {
-  const { user } = useAuth();
+  const isAuthenticated = useSelector((state: RootState) => state.authReducer.isAuthenticated)
 
-  if (!user) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
 
