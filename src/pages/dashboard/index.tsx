@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useAuthentication } from "src/hooks/useAuthentication"
 import { RootState } from "src/redux/store";
 
-const Home = () => {
+export const Dashboard = () => {
   const { signOutCall } = useAuthentication();
   const user = useSelector((state: RootState) => state.authSliceReducer.user)
 
@@ -16,4 +16,3 @@ const Home = () => {
   </div>
 }
 
-export default Home

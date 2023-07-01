@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "src/api/storage";
+import React from "react";
 import { useAuthentication } from "src/hooks/useAuthentication"
 
-const Login = () => {
+export const Login = () => {
   const { isLoading, signInCall } = useAuthentication()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,5 +27,3 @@ const Login = () => {
     </form>
   </div>
 }
-
-export default Login

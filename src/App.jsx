@@ -1,17 +1,17 @@
-import { Route, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom"
-import Home from "./Home"
-import Login from "./auth/Login"
-import Register from "./auth/Register"
-import { ProtectedLayout } from "./ProtectedLayout"
-import { UnprotectedLayout } from "./UnprotectedLayout"
+import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
+import { AuthGuard } from "./components/auth/AuthGuard"
+import { GuestGuard } from "./components/auth/GuestGuard"
+import { Dashboard } from "./pages/dashboard/index"
+import { Login } from "./pages/auth/Login"
+import { Register } from "./pages/auth/Register"
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route element={ <ProtectedLayout /> }>
-        <Route path="/" element={ <Home /> } />
+      <Route element={ <AuthGuard /> }>
+        <Route path="/" element={ <Dashboard /> } />
       </Route>
-      <Route element={ <UnprotectedLayout /> }>
+      <Route element={ <GuestGuard /> }>
         <Route path="/login" element={ <Login /> } />
         <Route path="/register" element={ <Register /> } />
       </Route>
