@@ -1,22 +1,23 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "src/api/storage";
 import { useAuthentication } from "src/hooks/useAuthentication"
 
-const Login = () => {
-  const { isLoading, signInCall } = useAuthentication()
+const Register = () => {
+  const navigate = useNavigate()
+
+  const { isLoading, signUpCall } = useAuthentication()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const email = e.target.elements.email.value
     const password = e.target.elements.password.value
     console.log(email, password)
-    await signInCall({ email, password })
+    await signUpCall({ email, password })
   }
 
   return <div>
-    Log In
+    Registration
     <form onSubmit={handleSubmit}>
       <div>
         <label>Email:</label>
@@ -26,9 +27,9 @@ const Login = () => {
         <label>Password:</label>
         <input name="password"></input>
       </div>
-      <button>Login</button>
+      <button>Register</button>
     </form>
   </div>
 }
 
-export default Login
+export default Register

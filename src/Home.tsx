@@ -1,12 +1,18 @@
 import React from "react";
-import { useAuth } from "./api/dep_auth";
+import { useSelector } from "react-redux";
+import { useAuthentication } from "src/hooks/useAuthentication"
+import { RootState } from "src/redux/store";
 
 const Home = () => {
-  const { logout } = useAuth()
-  return <div>
-    This is the homepage
+  const { signOutCall } = useAuthentication();
+  const user = useSelector((state: RootState) => state.authSliceReducer.user)
 
-    <button onClick={logout} >Logout</button>
+  const signOut = async () => {
+    await signOutCall()
+  }
+  return <div>
+    <div>Welcome, {user?.email}</div>
+    <button onClick={signOut} >Logout</button>
   </div>
 }
 
