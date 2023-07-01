@@ -17,7 +17,8 @@ export const useAuthentication = () => {
       if (!user.emailVerified) {
         return {
           isSuccessful: false,
-          error: Error("User is not verified!")
+          error: Error("User is not verified!"),
+          code: "auth/user-not-verified"
         }
       }
       dispatch(setUser(user))

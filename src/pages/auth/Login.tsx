@@ -51,10 +51,23 @@ export const Login = () => {
           }
         })
         navigate("/dashboard")
-      } else if (res.error && res.error.code === "auth/user-not-found") {
+      } else if (res.error.code === "auth/user-not-found") {
         Store.addNotification({
           title: "User not found!",
           message: `We can't find your credentials. Did you enter them correctly?`,
+          type: "danger",
+          insert: "top",
+          container: "top-center",
+          animationIn: ["animate__animated", "animate__fadeIn"],
+          animationOut: ["animate__animated", "animate__fadeOut"],
+          dismiss: {
+            duration: 3000
+          }
+        })
+      } else if (res.code === "auth/user-not-verified") {
+        Store.addNotification({
+          title: "User not verified!",
+          message: `Please verify your account first using the link sent to your email!`,
           type: "danger",
           insert: "top",
           container: "top-center",

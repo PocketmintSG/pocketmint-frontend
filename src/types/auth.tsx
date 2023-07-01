@@ -26,5 +26,6 @@ export interface AuthState {
 
 export interface AuthResultState {
   isSuccessful: boolean,
-  error: any
+  error: any,
+  code?: string
 }
