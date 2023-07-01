@@ -11,6 +11,10 @@ import { LoginUserCredentials } from "src/types/auth";
 import { triggerWIPNotification } from "src/utils/Notifications";
 import * as Yup from 'yup';
 
+import GoogleLogoUrl from "src/assets/common/logos/GoogleColored.svg"
+import AuthScreenCover from "src/assets/auth/AuthScreenCover.svg"
+import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg"
+
 export const Login = () => {
   const { signInCall } = useAuthentication()
 
@@ -103,7 +107,7 @@ export const Login = () => {
   return <div className="flex md:flex-row h-screen w-screen">
     <div className="w-[50vw]">
       <div className="w-full">
-        <img src="src/assets/common/Logo_PocketMint.svg" className="ml-10 mt-10 cursor-pointer" onClick={() => triggerPocketmintRedirectNotification()} />
+        <img src={PocketmintLogo} className="ml-10 mt-10 cursor-pointer" onClick={() => triggerPocketmintRedirectNotification()} />
       </div>
       <div className='flex flex-col gap-8 pl-[21%] pr-[21%] mt-[8%]'>
         <div className='flex flex-col'>
@@ -112,7 +116,7 @@ export const Login = () => {
         </div>
         <ButtonGhost className='font-normal' onClick={() => triggerWIPNotification("Google Authentication will be added soon!")}>
           <div className="flex flex-row items-center content-center justify-center gap-2">
-            <img src="/src/assets/common/logos/GoogleColored.svg" />
+            <img src={GoogleLogoUrl} />
             Sign in with Google
           </div>
         </ButtonGhost>
@@ -140,6 +144,6 @@ export const Login = () => {
         <span className='self-center'>Don't have one? <Link className='font-medium underline' to='/register'>Create an account.</Link></span>
       </div>
     </div>
-    <img className="h-screen w-[50vw] object-cover" src="src/assets/auth/AuthScreenCover.svg" />
+    <img className="h-screen w-[50vw] object-cover" src={AuthScreenCover} />
   </div>
 }
