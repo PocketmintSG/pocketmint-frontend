@@ -1,12 +1,21 @@
-import './App.css'
+import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
+import { AuthGuard } from "./components/auth/AuthGuard"
+import { GuestGuard } from "./components/auth/GuestGuard"
+import { Dashboard } from "./pages/dashboard/index"
+import { Login } from "./pages/auth/Login"
+import { Register } from "./pages/auth/Register"
 
-function App() {
-
-  return (
-    <>
-      <h1 className="text-3xl font-bold underline text-center">Hello world!</h1>
-    </>
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route>
+      <Route element={ <AuthGuard /> }>
+        <Route path="/" element={ <Dashboard /> } />
+      </Route>
+      <Route element={ <GuestGuard /> }>
+        <Route path="/login" element={ <Login /> } />
+        <Route path="/register" element={ <Register /> } />
+      </Route>
+    </Route>
   )
-}
+)
 
-export default App
