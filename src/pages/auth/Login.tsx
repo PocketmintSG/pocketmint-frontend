@@ -92,7 +92,7 @@ export const Login = () => {
       <div className="w-full">
         <img src="src/assets/common/Logo_PocketMint.svg" className="ml-10 mt-10 cursor-pointer" onClick={() => triggerPocketmintRedirectNotification()} />
       </div>
-      <div className='flex flex-col gap-8 pl-[21%] pr-[21%] mt-[15%]'>
+      <div className='flex flex-col gap-8 pl-[21%] pr-[21%] mt-[8%]'>
         <div className='flex flex-col'>
           <p className="text-2xl font-medium">Welcome back</p>
           <p className="text-xl font-normal text-darkGrey-600 whitespace-nowrap">Continue your financial journey with us.</p>
