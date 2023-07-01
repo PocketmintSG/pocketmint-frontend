@@ -1,7 +1,7 @@
 import React from "react";
 import { Suspense } from "react";
 import { useLoaderData, useOutlet, Await } from "react-router-dom";
-import { AuthProvider } from "./api/auth";
+import { AuthProvider } from "./api/dep_auth";
 import { Audio } from "react-loader-spinner"
 
 export const AuthLayout = () => {

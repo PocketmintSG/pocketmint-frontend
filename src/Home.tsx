@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "./api/auth";
+import { useAuth } from "./api/dep_auth";
 
 const Home = () => {
   const { logout } = useAuth()
