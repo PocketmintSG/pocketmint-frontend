@@ -10,7 +10,7 @@ export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route element={ <AuthGuard /> }>
-        <Route path="/" element={ <Dashboard /> } />
+        <Route path="/dashboard" element={ <Dashboard /> } />
       </Route>
       <Route element={ <GuestGuard /> }>
         <Route path="/login" element={ <Login /> } />

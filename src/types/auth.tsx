@@ -23,3 +23,8 @@ export interface AuthState {
   loading: boolean,
   error: null | string,
 };
+
+export interface AuthResultState {
+  isSuccessful: boolean,
+  error: any
+}
