@@ -14,6 +14,7 @@ import * as Yup from 'yup';
 import GoogleLogoUrl from "src/assets/common/logos/GoogleColored.svg"
 import AuthScreenCover from "src/assets/auth/AuthScreenCover.svg"
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg"
+import { emailSchema, passwordSchema } from 'src/utils/auth/Validation';
 
 export const Login = () => {
   const { signInCall } = useAuthentication()
@@ -100,8 +101,8 @@ export const Login = () => {
   }
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    email: emailSchema,
+    password: passwordSchema
   });
 
   return <div className="flex md:flex-row h-screen w-screen">
