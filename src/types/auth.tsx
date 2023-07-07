@@ -15,6 +15,11 @@ export interface RegisterUserCredentials {
   password: string,
 }
 
+export interface ResetPasswordCredentials {
+  newPassword: string,
+  confirmNewPassword: string
+}
+
 export interface AuthState {
   username: string,
   email: string,

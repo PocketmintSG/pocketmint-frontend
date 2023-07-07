@@ -134,7 +134,7 @@ export const Login = () => {
               <FormInput name="email" type="email" label="Email" />
               <div>
                 <FormInput name="password" type="password" label="Password" />
-                <button className="text-caption text-darkGrey-600 text-left" onClick={() => triggerWIPNotification("Option to reset password will be added")}>Forgot password?</button>
+                <button className="text-caption text-darkGrey-600 text-left" onClick={() => (navigate('/forget-password'))}>Forgot password?</button>
               </div>
               <ButtonFilled type="submit" disabled={isSubmitting}>
                 {isSubmitting ? <FadeLoader /> : 'Login'}
