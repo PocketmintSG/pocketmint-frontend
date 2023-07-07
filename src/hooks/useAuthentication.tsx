@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { confirmPasswordReset, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { clearUserData, setUser } from "../redux/authSlice";
@@ -9,6 +9,7 @@ export const useAuthentication = () => {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false)
+  const [hasBegunResetPasswordProcess, setHasBegunResetPasswordProcess] = useState(false) // Stop random access of reset password page
 
   const signInCall = async ({ email, password }: LoginUserCredentials): Promise<AuthResultState> => {
     setIsLoading(true);
@@ -73,5 +74,26 @@ export const useAuthentication = () => {
     }
   }
 
-  return { isLoading, signInCall, signUpCall, signOutCall }
+  const requestEmailResetCall = async (email: string) => {
+    setIsLoading(true)
+    setHasBegunResetPasswordProcess(true)
+    return sendPasswordResetEmail(auth, email)
+  }
+
+  const resetPasswordAfterEmailConfirmation = async (oobCode: string | null, newPasword: string) => {
+    if (oobCode === null) {
+      throw Error("Invalid oobCode provided! Please reset your password from the login page and not directly through the URL.")
+    }
+    return confirmPasswordReset(auth, oobCode, newPasword)
+  }
+
+  const getResetPasswordProcessStatus = () => {
+    return hasBegunResetPasswordProcess
+  }
+
+  const stopResetPasswordProcess = () => {
+    setHasBegunResetPasswordProcess(false)
+  }
+
+  return { isLoading, signInCall, signUpCall, signOutCall, requestEmailResetCall, resetPasswordAfterEmailConfirmation, stopResetPasswordProcess, getResetPasswordProcessStatus }
 }
