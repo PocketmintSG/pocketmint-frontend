@@ -14,6 +14,7 @@ import * as Yup from 'yup';
 import GoogleLogoUrl from "src/assets/common/logos/GoogleColored.svg"
 import AuthScreenCover from "src/assets/auth/AuthScreenCover.svg"
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg"
+import { emailSchema, passwordSchema } from 'src/utils/auth/Validation';
 
 export const Login = () => {
   const { signInCall } = useAuthentication()
@@ -100,8 +101,8 @@ export const Login = () => {
   }
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    email: emailSchema,
+    password: passwordSchema
   });
 
   return <div className="flex md:flex-row h-screen w-screen">
@@ -133,7 +134,7 @@ export const Login = () => {
               <FormInput name="email" type="email" label="Email" />
               <div>
                 <FormInput name="password" type="password" label="Password" />
-                <button className="text-caption text-darkGrey-600 text-left" onClick={() => triggerWIPNotification("Option to reset password will be added")}>Forgot password?</button>
+                <button className="text-caption text-darkGrey-600 text-left" onClick={() => (navigate('/forget-password'))}>Forgot password?</button>
               </div>
               <ButtonFilled type="submit" disabled={isSubmitting}>
                 {isSubmitting ? <FadeLoader /> : 'Login'}

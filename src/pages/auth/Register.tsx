@@ -14,6 +14,7 @@ import { triggerWIPNotification } from "src/utils/Notifications";
 import GoogleLogoUrl from "src/assets/common/logos/GoogleColored.svg"
 import AuthScreenCover from "src/assets/auth/AuthScreenCover.svg"
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg"
+import { emailSchema, passwordSchema } from "src/utils/auth/Validation";
 
 interface RegisterUserCredentialsWithPasswordConfirmation extends RegisterUserCredentials {
   confirmPassword: string
@@ -92,8 +93,8 @@ export const Register = () => {
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    email: emailSchema,
+    password: passwordSchema,
     confirmPassword: Yup.string()
       .required('Confirm password is required')
       .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
