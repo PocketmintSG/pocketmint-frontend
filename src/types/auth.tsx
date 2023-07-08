@@ -33,4 +33,5 @@ export interface AuthResultState {
   isSuccessful: boolean,
   error: any,
   code?: string
+  user?: any
 }
