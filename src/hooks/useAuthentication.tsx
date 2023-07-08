@@ -1,4 +1,4 @@
-import { confirmPasswordReset, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { GoogleAuthProvider, confirmPasswordReset, createUserWithEmailAndPassword, getRedirectResult, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { clearUserData, setUser } from "../redux/authSlice";
@@ -7,6 +7,7 @@ import { AuthResultState, LoginUserCredentials, RegisterUserCredentials } from "
 
 export const useAuthentication = () => {
   const dispatch = useDispatch();
+  const provider = new GoogleAuthProvider()
 
   const [isLoading, setIsLoading] = useState(false)
   const [hasBegunResetPasswordProcess, setHasBegunResetPasswordProcess] = useState(false) // Stop random access of reset password page
@@ -39,7 +40,7 @@ export const useAuthentication = () => {
   }
 
   const signUpCall = async ({ username, email, password }: RegisterUserCredentials): Promise<AuthResultState> => {
-    setIsLoading(true);
+    // setIsLoading(true);
     return createUserWithEmailAndPassword(auth, email, password).then(() => {
       updateProfile(auth.user, {
         displayName: username
@@ -59,6 +60,37 @@ export const useAuthentication = () => {
       }
     }).finally(() => {
       setIsLoading(false);
+    })
+  }
+
+  const authenticateWithGoogleCall = async () => {
+    signInWithRedirect(auth, provider)
+  }
+
+  const readGoogleToken = async () => {
+    setIsLoading(true)
+    return getRedirectResult(auth).then((res) => {
+      const user = res?.user;
+      if (user) {
+        dispatch(setUser(user))
+        return {
+          isSuccessful: true,
+          error: null,
+        }
+      } else {
+        // User is not signed in
+        return {
+          isSuccessful: false,
+          error: null,
+        }
+      }
+    }).catch((err) => {
+      return {
+        isSuccessful: false,
+        error: err
+      }
+    }).finally(() => {
+      setIsLoading(false)
     })
   }
 
@@ -95,5 +127,5 @@ export const useAuthentication = () => {
     setHasBegunResetPasswordProcess(false)
   }
 
-  return { isLoading, signInCall, signUpCall, signOutCall, requestEmailResetCall, resetPasswordAfterEmailConfirmation, stopResetPasswordProcess, getResetPasswordProcessStatus }
+  return { isLoading, signInCall, signUpCall, signOutCall, requestEmailResetCall, resetPasswordAfterEmailConfirmation, stopResetPasswordProcess, getResetPasswordProcessStatus, authenticateWithGoogleCall, readGoogleToken }
 }

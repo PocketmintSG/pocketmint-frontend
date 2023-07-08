@@ -23,6 +23,7 @@
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.0",
     "react-spinners": "^0.13.8",
+    "react-spring": "^9.7.2",
     "redux-persist": "^6.0.0",
     "sharp": "^0.32.1",
     "svgo": "^3.0.2",

@@ -38,7 +38,8 @@ export default {
         'base': '14px',
         'lg': '18px',
         'xl': '20px',
-        '2xl': '35px'
+        '2xl': '35px',
+        '3xl': '45px'
       }
     }
   },
