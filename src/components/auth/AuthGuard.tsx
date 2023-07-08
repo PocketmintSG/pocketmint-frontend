@@ -6,7 +6,7 @@ import { RootState } from "src/redux/store";
 export const AuthGuard = () => {
   const user = useSelector((state: RootState) => state.authSliceReducer.user)
 
-  if (!user.email) {
+  if (!user) {
     return <Navigate to="/login" />;
   }
 
