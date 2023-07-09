@@ -1,9 +1,10 @@
-import { GoogleAuthProvider, confirmPasswordReset, createUserWithEmailAndPassword, getRedirectResult, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, updateProfile } from "firebase/auth";
+import { GoogleAuthProvider, User, confirmPasswordReset, createUserWithEmailAndPassword, getRedirectResult, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { clearUserData, setUser } from "../redux/authSlice";
 import { auth } from "../../firebase-config";
 import { AuthResultState, LoginUserCredentials, RegisterUserCredentials } from "src/types/auth"
+import { loginUserAPI } from "src/api/auth";
 
 export const useAuthentication = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,18 @@ export const useAuthentication = () => {
           code: "auth/user-not-verified"
         }
       }
-      dispatch(setUser(user))
+      if (!user) {
+        return {
+          isSuccessful: false,
+          error: Error("User credentials are incorrect! Did you forget your password?"),
+          code: "auth/user-not-found"
+        }
+      }
+      user.getIdToken().then(async (token: string) => {
+        console.log(token)
+        const user = await loginUserAPI(token)
+        dispatch(setUser(user))
+      })
       return {
         isSuccessful: true,
         error: null

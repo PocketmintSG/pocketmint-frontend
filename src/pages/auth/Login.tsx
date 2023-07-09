@@ -8,7 +8,6 @@ import { ButtonGhost } from "src/components/general/buttons/ButtonGhost";
 import { FormInput } from "src/components/general/form/FormInput";
 import { useAuthentication } from "src/hooks/useAuthentication";
 import { LoginUserCredentials } from "src/types/auth";
-import { triggerWIPNotification } from "src/utils/Notifications";
 import * as Yup from 'yup';
 
 import GoogleLogoUrl from "src/assets/common/logos/GoogleColored.svg"
@@ -39,9 +38,7 @@ export const Login = () => {
 
   const handleSubmit = async (values: LoginUserCredentials, actions: FormikHelpers<LoginUserCredentials>) => {
     const { email, password } = values
-    console.log(email, password)
     signInCall({ email, password }).then(res => {
-      console.log(res)
       if (res.isSuccessful) {
         console.log("User logged in sucessfully")
         Store.addNotification({
