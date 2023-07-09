@@ -1,14 +1,14 @@
-import axios from "axios"
-import { LoginUserCredentials } from "src/types/auth"
+import axios, { AxiosResponse } from "axios"
+import { User } from "firebase/auth"
 
-const BASE_URL = "http://127.0.0.1:8000"
+const BASE_URL = import.meta.env.VITE_ENV === "dev" ? import.meta.env.VITE_BACKEND_DEV_URL : import.meta.env.VITE_BACKEND_PROD_URL
 
-export const loginUserAPI = async ({ email, password }: LoginUserCredentials) => {
-  console.log("Calling API to log in user")
+export const loginUserAPI = async (authToken: string): Promise<User> => {
   return axios.post(BASE_URL + "/login", {
-    email, password
-  }).then(res => {
+    authToken
+  }).then((res: AxiosResponse<User>) => {
     console.log(res)
-    return res
+    const userData: User = res.data
+    return userData;
   })
 }
