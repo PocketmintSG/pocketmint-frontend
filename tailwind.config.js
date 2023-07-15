@@ -39,8 +39,12 @@ export default {
         'base': '14px',
         'lg': '18px',
         'xl': '20px',
+        '1.5xl': '25px',
         '2xl': '35px',
         '3xl': '45px'
+      },
+      backgroundImage: {
+        'header-background': "url('/src/assets/common/components/Header_Background.svg')",
       }
     }
   },
