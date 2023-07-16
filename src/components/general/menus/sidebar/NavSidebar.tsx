@@ -3,40 +3,23 @@ import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import HeinrichProfilePicture from "src/assets/placeholders/profile-picture-heinrich.svg"
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg"
-import { AiOutlineStock } from "react-icons/ai"
-import { MdAttachMoney } from "react-icons/md"
-import { BsShieldFillCheck } from "react-icons/bs"
-import { IoMdSettings } from "react-icons/io"
 
-const menuItems = [
-  {
-    menuTitle: "Dashboard",
-    icon: <AiOutlineStock />,
-    link: "/dashboard"
-  },
-  {
-    menuTitle: "Expenses",
-    icon: <MdAttachMoney />,
-    link: "/expenses"
-  },
-  {
-    menuTitle: "Insurance",
-    icon: <BsShieldFillCheck />,
-    link: "/insurance"
-  },
-  {
-    menuTitle: "Settings",
-    icon: <IoMdSettings />,
-    link: "/settings"
-  }
-]
+export interface MenuItem {
+  menuTitle: string
+  icon: React.JSX.Element
+  link: string
+}
 
-export const NavSidebar = () => {
-  const [activeMenuItem, setActiveMenuItem] = useState("/dashboard")
+interface NavSidebarProps {
+  menuItems: MenuItem[]
+  activeItem: any
+  setActiveItem: any
+}
+
+export const NavSidebar = ({ menuItems, activeItem, setActiveItem }: NavSidebarProps) => {
 
   const handleActiveMenuItem = (menuItem: string) => {
-    console.log(menuItem)
-    setActiveMenuItem(menuItem)
+    setActiveItem(menuItem)
   }
 
   return <Sidebar rootStyles={{
@@ -67,7 +50,7 @@ export const NavSidebar = () => {
         </div>
       </MenuItem>
       {menuItems.map(item => (<MenuItem
-        active={item.menuTitle === activeMenuItem}
+        active={item.menuTitle === activeItem}
         icon={item.icon}
         component={<Link to={item.link} />}
         onClick={() => handleActiveMenuItem(item.menuTitle)}><p className="font-medium text-grey-900">{item.menuTitle}</p></MenuItem>))}
