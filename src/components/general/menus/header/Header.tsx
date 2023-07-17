@@ -16,7 +16,7 @@ export const Header = ({ pageTitle, tabs }: HeaderProps) => {
     setActiveTab(tabTitle)
   }
 
-  return <section className="bg-header-background h-[20vh] w-full bg-no-repeat bg-cover rounded-b-xl">
+  return <section className="bg-header-background h-[20vh] w-full bg-no-repeat bg-cover rounded-b-lg">
     <div className='flex flex-col m-5'>
       <p className="text-white text-2xl font-bold mb-3">{pageTitle}</p>
       <Popover.Group className="flex flex-row">
