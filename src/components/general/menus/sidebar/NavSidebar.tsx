@@ -13,7 +13,8 @@ interface NavSidebarProps {
 
 export const NavSidebar = ({ menuItems, activeSection, setActiveSection }: NavSidebarProps) => {
 
-  const handleActiveMenuItem = (menuItem: string) => {
+  const handleActiveMenuItem = (menuItemLabel: string) => {
+    const menuItem = menuItems.find(item => item.menuLabel === menuItemLabel)
     setActiveSection(menuItem)
   }
 

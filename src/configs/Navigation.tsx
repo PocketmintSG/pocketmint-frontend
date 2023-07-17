@@ -22,47 +22,75 @@ interface SubTabProps {
     subTabLink: string
 }
 
-const HeaderNavigationItems: TabProps[] = [
-    {
-        tabTitle: "test",
-        link: "/dashboard",
-    }, {
-        tabTitle: "test2",
-        link: "/dashboard",
-        subTabs: [{
-            subTabTitle: "test",
-            subTabLink: "/dashboard"
-        },
-        {
-            subTabTitle: "test",
-            subTabLink: "/dashboard"
-        }]
-    }]
-
 export const NavigationItems: NavigationItem[] = [
     {
-        menuLabel: "Dashboard",
+        menuLabel: "Investments",
         icon: <AiOutlineStock />,
         link: "/dashboard",
-        tabs: HeaderNavigationItems
+        tabs: [
+            {
+                tabTitle: "Overview",
+                link: "/",
+            },
+            {
+                tabTitle: "Transactions",
+                link: "/",
+            },
+            {
+                tabTitle: "Analysis",
+                link: "/",
+                subTabs: [
+                    {
+                        subTabTitle: "Report",
+                        subTabLink: "/"
+                    },
+                    {
+                        subTabTitle: "Performance",
+                        subTabLink: "/"
+                    },
+                    {
+                        subTabTitle: "Analysis",
+                        subTabLink: "/"
+                    },
+                    {
+                        subTabTitle: "Earnings",
+                        subTabLink: "/"
+                    }
+                ]
+            }
+        ]
     },
     {
         menuLabel: "Expenses",
         icon: <MdAttachMoney />,
         link: "/expenses",
-        tabs: HeaderNavigationItems
+        tabs: [
+            {
+                tabTitle: "Overview",
+                link: "/",
+            },
+            {
+                tabTitle: "Transactions",
+                link: "/",
+            }
+        ]
     },
     {
         menuLabel: "Insurance",
         icon: <BsShieldFillCheck />,
         link: "/insurance",
-        tabs: HeaderNavigationItems
+        tabs: []
     },
     {
         menuLabel: "Settings",
         icon: <IoMdSettings />,
         link: "/settings",
-        tabs: HeaderNavigationItems
+        tabs: [
+            {
+                tabTitle: "My Profile",
+                link: "/",
+            }
+        ]
     }
 ]
 
