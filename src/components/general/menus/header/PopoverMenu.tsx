@@ -1,10 +1,16 @@
 import React, { Fragment, useRef, useState } from "react"
 import { Popover, Transition } from "@headlessui/react"
 import { Link } from "react-router-dom"
+import { TabProps } from "src/components/general/menus/header/Header"
+
+interface PopoverMenuProps {
+  tabData: TabProps
+  handleTabSwitch: any
+  isActiveTab: boolean
+}
 
 
-
-export const PopoverMenu = ({ tabData, handleTabSwitch, isActiveTab }) => {
+export const PopoverMenu = ({ tabData, handleTabSwitch, isActiveTab }: PopoverMenuProps) => {
   const [isHovered, setIsHovered] = useState(false)
 
   return <Popover>

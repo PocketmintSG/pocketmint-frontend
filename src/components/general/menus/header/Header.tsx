@@ -1,5 +1,5 @@
-import React, { Fragment, useRef, useState } from "react"
-import { Menu, Popover, PopoverButtonProps } from "@headlessui/react"
+import React, { useState } from "react"
+import { Popover } from "@headlessui/react"
 import { PopoverMenu } from "./PopoverMenu"
 
 export interface TabProps {
@@ -26,8 +26,8 @@ export const Header = ({ pageTitle, tabs }: HeaderProps) => {
     setActiveTab(tabTitle)
   }
 
-  return <section className="bg-header-background h-[18vh]">
-    <div className='flex flex-col m-3'>
+  return <section className="bg-header-background h-[19vh]">
+    <div className='flex flex-col m-5'>
       <p className="text-white text-2xl font-bold mb-3">{pageTitle}</p>
       <Popover.Group className="flex flex-row">
         {tabs.map(tab => {

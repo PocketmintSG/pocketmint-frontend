@@ -12,14 +12,14 @@ export interface MenuItem {
 
 interface NavSidebarProps {
   menuItems: MenuItem[]
-  activeItem: any
-  setActiveItem: any
+  activeSection: any
+  setActiveSection: any
 }
 
-export const NavSidebar = ({ menuItems, activeItem, setActiveItem }: NavSidebarProps) => {
+export const NavSidebar = ({ menuItems, activeSection, setActiveSection }: NavSidebarProps) => {
 
   const handleActiveMenuItem = (menuItem: string) => {
-    setActiveItem(menuItem)
+    setActiveSection(menuItem)
   }
 
   return <Sidebar rootStyles={{
@@ -50,7 +50,7 @@ export const NavSidebar = ({ menuItems, activeItem, setActiveItem }: NavSidebarP
         </div>
       </MenuItem>
       {menuItems.map(item => (<MenuItem
-        active={item.menuTitle === activeItem}
+        active={item.menuTitle === activeSection}
         icon={item.icon}
         component={<Link to={item.link} />}
         onClick={() => handleActiveMenuItem(item.menuTitle)}><p className="font-medium text-grey-900">{item.menuTitle}</p></MenuItem>))}
