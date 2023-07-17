@@ -19,7 +19,8 @@ export default {
         400: "#F0F0F0",
         500: "#E0E0E0",
         600: "#D7D7D7",
-        800: "#D3D3D3"
+        800: "#D3D3D3",
+        900: "#636363"
       },
     },
     extend: {
@@ -38,8 +39,12 @@ export default {
         'base': '14px',
         'lg': '18px',
         'xl': '20px',
+        '1.5xl': '25px',
         '2xl': '35px',
         '3xl': '45px'
+      },
+      backgroundImage: {
+        'header-background': "url('/src/assets/common/components/Header_Background.svg')",
       }
     }
   },

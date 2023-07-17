@@ -1,11 +1,16 @@
 import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom"
 import { AuthGuard } from "./components/auth/AuthGuard"
 import { GuestGuard } from "./components/auth/GuestGuard"
-import { Dashboard } from "./pages/dashboard/index"
 import { Login } from "./pages/auth/Login"
 import { Register } from "./pages/auth/Register"
 import { ForgetPassword } from "./pages/auth/ForgetPassword"
 import { ResetPassword } from "./pages/auth/ResetPassword"
+
+import { Dashboard } from "./pages/dashboard/index"
+import { Expenses } from "./pages/expenses/index"
+import { Insurance } from "./pages/insurance/index"
+import { Settings } from "./pages/settings/index"
+
 import { Playground } from "./pages/Playground"
 
 export const router = createBrowserRouter(
@@ -14,6 +19,9 @@ export const router = createBrowserRouter(
       <Route element={ <AuthGuard /> }>
         <Route path="/" element={ <Navigate to="/dashboard" /> } />
         <Route path="/dashboard" element={ <Dashboard /> } />
+        <Route path="/expenses" element={ <Expenses /> } />
+        <Route path="/insurance" element={ <Insurance /> } />
+        <Route path="/settings" element={ <Settings /> } />
       </Route>
       <Route element={ <GuestGuard /> }>
         <Route path="/" element={ <Navigate to="/login" /> } />
