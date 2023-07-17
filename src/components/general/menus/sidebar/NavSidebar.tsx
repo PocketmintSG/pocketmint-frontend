@@ -3,15 +3,10 @@ import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import HeinrichProfilePicture from "src/assets/placeholders/profile-picture-heinrich.svg"
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg"
-
-export interface MenuItem {
-  menuTitle: string
-  icon: React.JSX.Element
-  link: string
-}
+import { NavigationItem } from 'src/configs/Navigation';
 
 interface NavSidebarProps {
-  menuItems: MenuItem[]
+  menuItems: NavigationItem[]
   activeSection: any
   setActiveSection: any
 }
@@ -50,10 +45,11 @@ export const NavSidebar = ({ menuItems, activeSection, setActiveSection }: NavSi
         </div>
       </MenuItem>
       {menuItems.map(item => (<MenuItem
-        active={item.menuTitle === activeSection}
+        key={item.menuLabel}
+        active={item.menuLabel === activeSection}
         icon={item.icon}
         component={<Link to={item.link} />}
-        onClick={() => handleActiveMenuItem(item.menuTitle)}><p className="font-medium text-grey-900">{item.menuTitle}</p></MenuItem>))}
+        onClick={() => handleActiveMenuItem(item.menuLabel)}><p className="font-medium text-grey-900">{item.menuLabel}</p></MenuItem>))}
     </Menu>
   </Sidebar>
 }
