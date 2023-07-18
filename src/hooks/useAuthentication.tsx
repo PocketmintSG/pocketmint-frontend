@@ -37,6 +37,7 @@ export const useAuthentication = () => {
     return signInWithEmailAndPassword(auth, email, password)
       .then((res) => {
         const { user } = res;
+        console.log(user.accessToken)
         if (!user.emailVerified) {
           return {
             isSuccessful: false,

@@ -14,7 +14,7 @@ import GoogleLogoUrl from "src/assets/common/logos/GoogleColored.svg";
 import AuthScreenCover from "src/assets/auth/AuthScreenCover.svg";
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg";
 
-import { emailSchema, passwordSchema } from "src/utils/auth/Validation";
+import { emailSchema, passwordRegistrationSchema } from "src/utils/auth/Validation";
 import { useSpring, animated, config } from "react-spring";
 import { ScreenSpinner } from "src/components/auth/ScreenSpinner";
 
@@ -147,7 +147,7 @@ export const Register = () => {
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     email: emailSchema,
-    password: passwordSchema,
+    password: passwordRegistrationSchema,
     confirmPassword: Yup.string()
       .required("Confirm password is required")
       .oneOf([Yup.ref("password"), ""], "Passwords must match"),

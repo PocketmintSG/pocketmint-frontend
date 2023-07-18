@@ -11,9 +11,9 @@ import * as Yup from "yup";
 
 import AuthScreenCover from "src/assets/auth/AuthScreenCover.svg";
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg";
-import { passwordSchema } from "src/utils/auth/Validation";
 import { triggerGenericNotification } from "src/utils/Notifications";
 import { useQuery } from "src/hooks/useQuery";
+import { passwordRegistrationSchema } from "src/utils/auth/Validation";
 
 export const ResetPassword = () => {
   const { getResetPasswordProcessStatus, resetPasswordAfterEmailConfirmation } =
@@ -47,7 +47,7 @@ export const ResetPassword = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    newPassword: passwordSchema,
+    newPassword: passwordRegistrationSchema,
     confirmNewPassword: Yup.string()
       .required("Confirm password is required")
       .oneOf([Yup.ref("newPassword"), ""], "Passwords must match"),
