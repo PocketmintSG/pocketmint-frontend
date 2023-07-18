@@ -8,13 +8,12 @@ import { ButtonGhost } from "src/components/general/buttons/ButtonGhost";
 import { FormInput } from "src/components/general/form/FormInput";
 import { useAuthentication } from "src/hooks/useAuthentication";
 import { LoginUserCredentials } from "src/types/auth";
-import { triggerWIPNotification } from "src/utils/Notifications";
 import * as Yup from "yup";
 
 import GoogleLogoUrl from "src/assets/common/logos/GoogleColored.svg";
 import AuthScreenCover from "src/assets/auth/AuthScreenCover.svg";
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg";
-import { emailSchema, passwordSchema } from "src/utils/auth/Validation";
+import { emailSchema, passwordLoginSchema } from "src/utils/auth/Validation";
 import { ScreenSpinner } from "src/components/auth/ScreenSpinner";
 
 export const Login = () => {
@@ -44,10 +43,8 @@ export const Login = () => {
     actions: FormikHelpers<LoginUserCredentials>,
   ) => {
     const { email, password } = values;
-    console.log(email, password);
     signInCall({ email, password })
       .then((res) => {
-        console.log(res);
         if (res.isSuccessful) {
           console.log("User logged in sucessfully");
           Store.addNotification({
@@ -80,6 +77,20 @@ export const Login = () => {
           Store.addNotification({
             title: "User not verified!",
             message: `Please verify your account first using the link sent to your email!`,
+            type: "danger",
+            insert: "top",
+            container: "top-center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+              duration: 3000,
+            },
+          });
+        } else if (res.error.code === "auth/wrong-password") {
+          console.log("OH")
+          Store.addNotification({
+            title: "Wrong email or password!",
+            message: `Please check your entered credentials!`,
             type: "danger",
             insert: "top",
             container: "top-center",
@@ -150,7 +161,7 @@ export const Login = () => {
 
   const validationSchema = Yup.object().shape({
     email: emailSchema,
-    password: passwordSchema,
+    password: passwordLoginSchema,
   });
 
   return (
