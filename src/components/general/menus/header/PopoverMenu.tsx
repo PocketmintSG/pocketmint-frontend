@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import { TabProps } from "src/components/general/menus/header/Header";
+import { TabProps } from "src/configs/Navigation";
 
 interface PopoverMenuProps {
   tabData: TabProps;
@@ -24,9 +24,8 @@ export const PopoverMenu = ({
           onMouseLeave={() => setIsHovered(false)}
         >
           <Popover.Button
-            className={`border-b-2 border-white pl-12 pr-12 ${
-              isActiveTab ? "hover:font-bold" : "hover:font-medium"
-            } ${isActiveTab ? "font-bold" : "font-base"}`}
+            className={`border-b-2 border-white pl-12 pr-12 ${isActiveTab ? "hover:font-bold" : "hover:font-medium"
+              } ${isActiveTab ? "font-bold" : "font-base"}`}
             onClick={() => handleTabSwitch(tabData.tabTitle)}
           >
             <p className="text-white text-xl">{tabData.tabTitle}</p>
@@ -45,7 +44,7 @@ export const PopoverMenu = ({
               {tabData.subTabs &&
                 tabData.subTabs.map((subTab) => {
                   return (
-                    <div className="bg-white cursor-pointer hover:bg-grey-200 pt-3 pb-3">
+                    <div key={subTab.subTabLink} className="bg-white cursor-pointer hover:bg-grey-200 pt-3 pb-3">
                       <Link to={subTab.subTabLink}>
                         <p className="w-full text-center">
                           {subTab.subTabTitle}
