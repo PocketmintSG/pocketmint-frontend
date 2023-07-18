@@ -1,9 +1,9 @@
-import { twMerge } from "tailwind-merge"
+import { twMerge } from "tailwind-merge";
 
 type P = {
-  classes: string[]
-  ignore?: string
-}
+  classes: string[];
+  ignore?: string;
+};
 
 /**
  * **This function merges tailwindcss classes into one string by removing same utitlity classes.**
@@ -23,8 +23,8 @@ type P = {
  * ```
  */
 export function mergeClasses(params: P) {
-  const { classes, ignore = "" } = params
-  const mergedClasses = twMerge(...classes)
+  const { classes, ignore = "" } = params;
+  const mergedClasses = twMerge(...classes);
 
-  return `${mergedClasses} ${ignore}`
+  return `${mergedClasses} ${ignore}`;
 }

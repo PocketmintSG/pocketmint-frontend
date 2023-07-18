@@ -1,14 +1,13 @@
-
 import React, {
   ComponentPropsWithRef,
   forwardRef,
-  ForwardRefExoticComponent
-} from 'react'
-import { mergeClasses } from 'src/utils/MergeClasses'
+  ForwardRefExoticComponent,
+} from "react";
+import { mergeClasses } from "src/utils/MergeClasses";
 
-type P = ComponentPropsWithRef<'button'> & {
-  ignoreClasses?: string
-}
+type P = ComponentPropsWithRef<"button"> & {
+  ignoreClasses?: string;
+};
 
 /**
  * **This is Primary Variant of Button Component**
@@ -23,21 +22,26 @@ type P = ComponentPropsWithRef<'button'> & {
  */
 export const ButtonFilled: ForwardRefExoticComponent<P> =
   forwardRef<HTMLButtonElement>((props: P, ref) => {
-    const { children, className = '', ignoreClasses = '', ...restProps } = props
+    const {
+      children,
+      className = "",
+      ignoreClasses = "",
+      ...restProps
+    } = props;
 
     return (
       <button
         ref={ref}
         className={mergeClasses({
           classes: [
-            'px-4 py-3 hover:bg-primary-400 hover:text-white transition duration-[300ms] ease-in-out leading-tight rounded-[4px] bg-primary-500 text-white disabled:opacity-40',
-            className
+            "px-4 py-3 hover:bg-primary-400 hover:text-white transition duration-[300ms] ease-in-out leading-tight rounded-[4px] bg-primary-500 text-white disabled:opacity-40",
+            className,
           ],
-          ignore: ignoreClasses
+          ignore: ignoreClasses,
         })}
         {...restProps}
       >
         {children}
       </button>
-    )
-  })
+    );
+  });
