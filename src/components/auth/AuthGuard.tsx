@@ -22,7 +22,6 @@ export const AuthGuard = () => {
     setActiveTab(newTab.tabTitle);
   };
   const handleSectionSwitch = (newSection: NavigationItem) => {
-    console.log(newSection);
     setActiveSection(newSection);
     setActiveTab(
       newSection.tabs.length !== 0 ? newSection.tabs[0].tabTitle : "",
@@ -42,7 +41,7 @@ export const AuthGuard = () => {
       />
       <div className="flex flex-col h-full w-full">
         <Header
-          pageTitle="test"
+          pageTitle={activeSection.pageLabel}
           activeTab={activeTab}
           setActiveTab={handleTabSwitch}
           tabs={activeSection.tabs}
