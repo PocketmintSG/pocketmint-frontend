@@ -47,7 +47,7 @@ export const useAuthentication = () => {
         }
         const userAccessToken = await user.getIdToken();
         const apiRes = await loginUserAPI(userAccessToken)
-        if (apiRes.data.data.status !== StatusEnum.SUCCESS) {
+        if (apiRes.data.status !== StatusEnum.SUCCESS) {
           return {
             isSuccessful: false,
             error: apiRes.data.data.message,
@@ -72,6 +72,8 @@ export const useAuthentication = () => {
 
   const signUpCall = async ({
     username,
+    firstName,
+    lastName,
     email,
     password,
   }: RegisterUserCredentials): Promise<AuthResultState> => {
@@ -79,14 +81,15 @@ export const useAuthentication = () => {
     return createUserWithEmailAndPassword(auth, email, password)
       .then(async () => {
         const userAccessToken = auth.currentUser.accessToken;
-        const res = await registerUserAPI(userAccessToken)
-        if (res.data.data.status !== StatusEnum.SUCCESS) {
+        const res = await registerUserAPI(userAccessToken, username, firstName, lastName)
+        console.log(res)
+        if (res.data.status !== 'success') {
           return {
             isSuccessful: false,
             error: res.data.data.message,
           };
         }
-        updateProfile(auth.user, {
+        updateProfile(auth.currentUser, {
           displayName: username,
         });
         return {
