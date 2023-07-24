@@ -60,7 +60,6 @@ export const useAuthentication = () => {
         };
       })
       .catch((err) => {
-        console.log(err);
         return {
           isSuccessful: false,
           error: err.response.data.detail.message,
