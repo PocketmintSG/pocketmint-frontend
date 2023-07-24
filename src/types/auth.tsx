@@ -13,6 +13,8 @@ export interface LoginUserCredentials {
 
 export interface RegisterUserCredentials {
   username: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }
