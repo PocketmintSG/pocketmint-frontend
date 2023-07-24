@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+
+/* eslint-env node */
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -6,7 +8,7 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   theme: {
     container: {
       center: true,
@@ -15,7 +17,42 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    colors: {
+      black: "#202022",
+      white: "#fff",
+      error: "#FF0000",
+      warning: "#F5A200",
+      grey: {
+        200: "#F2F2F2",
+        400: "#F0F0F0",
+        500: "#E0E0E0",
+        600: "#D7D7D7",
+        800: "#D3D3D3",
+        900: "#636363",
+      },
+      darkGrey: {
+        600: "#787878",
+        800: "#525252",
+      },
+    },
     extend: {
+      backgroundImage: {
+        "header-background":
+          "url('/src/assets/common/components/Header_Background.svg')",
+      },
+      fontFamily: {
+        'dm-sans': ["DM Sans", "sans-serif"],
+      },
+      fontSize: {
+        caption: "10px",
+        sm: "12px",
+        base: "14px",
+        lg: "18px",
+        xl: "20px",
+        "1.5xl": "25px",
+        "2xl": "35px",
+        "3xl": "45px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -23,6 +60,8 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
+          400: "#5CCD72",
+          500: "#4CAF50",
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
