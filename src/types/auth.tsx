@@ -1,3 +1,5 @@
+import { User } from "firebase/auth";
+
 export interface UserCredentials {
   username: string;
   email: string;
@@ -33,5 +35,5 @@ export interface AuthResultState {
   isSuccessful: boolean;
   error: any;
   code?: string;
-  user?: any;
+  user?: User;
 }
