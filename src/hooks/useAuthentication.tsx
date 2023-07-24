@@ -53,7 +53,18 @@ export const useAuthentication = () => {
             error: apiRes.data.data.message,
           };
         }
-        dispatch(setUser(user));
+        dispatch(setUser({
+          username: user.displayName,
+          email: user.email,
+          accessToken: await user.getIdToken(),
+          emailVerified: user.emailVerified,
+          metadata: {
+            lastSignInTime: user.metadata.lastSignInTime,
+          },
+          phoneNumber: user.phoneNumber,
+          photoURL: user.photoURL,
+          uid: user.uid,
+        }));
         return {
           isSuccessful: true,
           error: null,

@@ -1,5 +1,19 @@
 import { User } from "firebase/auth";
 
+export interface UserDetails {
+  username: string;
+  email: string;
+  accessToken: string;
+  emailVerified: boolean;
+  metadata: {
+    lastLoginAt: string;
+    lastSignInTime: string;
+  };
+  phoneNumber: string;
+  photoURL: string;
+  uid: string;
+}
+
 export interface UserCredentials {
   username: string;
   email: string;
