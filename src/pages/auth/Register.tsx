@@ -15,7 +15,6 @@ import AuthScreenCover from "src/assets/auth/AuthScreenCover.svg";
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg";
 
 import { emailSchema, passwordRegistrationSchema } from "src/utils/auth/Validation";
-import { useSpring, animated, config } from "react-spring";
 import { ScreenSpinner } from "src/components/auth/ScreenSpinner";
 
 interface RegisterUserCredentialsWithPasswordConfirmation
@@ -85,6 +84,8 @@ export const Register = () => {
               duration: 3000,
             },
           });
+        } else {
+          throw new Error(res.error);
         }
       })
       .catch((err) => {

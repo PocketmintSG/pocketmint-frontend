@@ -9,3 +9,9 @@ export const loginUserAPI = async (userToken: string): Promise<AxiosResponse<Bas
     token: userToken,
   })
 };
+
+export const registerUserAPI = async (userToken: string): Promise<AxiosResponse<BaseAPIResponse, any>> => {
+  return axios.post(API_URL + "/register", {
+    token: userToken,
+  })
+};

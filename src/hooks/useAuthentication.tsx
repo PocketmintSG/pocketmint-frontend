@@ -19,7 +19,7 @@ import {
   LoginUserCredentials,
   RegisterUserCredentials,
 } from "src/types/auth";
-import { loginUserAPI } from "@/api/auth";
+import { loginUserAPI, registerUserAPI } from "@/api/auth";
 import { StatusEnum } from "@/types/api";
 
 export const useAuthentication = () => {
@@ -77,7 +77,15 @@ export const useAuthentication = () => {
   }: RegisterUserCredentials): Promise<AuthResultState> => {
     setIsLoading(true);
     return createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then(async () => {
+        const userAccessToken = auth.currentUser.accessToken;
+        const res = await registerUserAPI(userAccessToken)
+        if (res.data.data.status !== StatusEnum.SUCCESS) {
+          return {
+            isSuccessful: false,
+            error: res.data.data.message,
+          };
+        }
         updateProfile(auth.user, {
           displayName: username,
         });
