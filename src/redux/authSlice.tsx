@@ -1,14 +1,5 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 import { User } from "firebase/auth";
-import { loginUserAPI } from "src/api/auth";
-import { useLocalStorage } from "src/api/storage";
-import {
-  AuthState,
-  LoginUserCredentials,
-  RegisterUserCredentials,
-  UserCredentials,
-} from "src/types/auth";
 
 interface UserState {
   user: User | null;
