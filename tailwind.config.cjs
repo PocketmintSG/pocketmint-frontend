@@ -54,6 +54,7 @@ module.exports = {
         "3xl": "45px",
       },
       colors: {
+        containerBackground: "#F5F5F7",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
