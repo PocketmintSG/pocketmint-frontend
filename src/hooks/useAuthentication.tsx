@@ -6,7 +6,6 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  signInWithPopup,
   signInWithRedirect,
   signOut,
   updateProfile,
@@ -20,6 +19,8 @@ import {
   LoginUserCredentials,
   RegisterUserCredentials,
 } from "src/types/auth";
+import { loginUserAPI } from "@/api/auth";
+import { StatusEnum } from "@/types/api";
 
 export const useAuthentication = () => {
   const dispatch = useDispatch();
@@ -35,14 +36,21 @@ export const useAuthentication = () => {
   }: LoginUserCredentials): Promise<AuthResultState> => {
     setIsLoading(true);
     return signInWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        const { user } = res;
-        console.log(user.accessToken)
+      .then(async (firebaseRes) => {
+        const { user } = firebaseRes;
         if (!user.emailVerified) {
           return {
             isSuccessful: false,
             error: Error("User is not verified!"),
             code: "auth/user-not-verified",
+          };
+        }
+        const userAccessToken = await user.getIdToken();
+        const apiRes = await loginUserAPI(userAccessToken)
+        if (apiRes.data.data.status !== StatusEnum.SUCCESS) {
+          return {
+            isSuccessful: false,
+            error: apiRes.data.data.message,
           };
         }
         dispatch(setUser(user));
@@ -55,7 +63,7 @@ export const useAuthentication = () => {
         console.log(err);
         return {
           isSuccessful: false,
-          error: err,
+          error: err.response.data.detail.message,
         };
       })
       .finally(() => {
@@ -68,7 +76,7 @@ export const useAuthentication = () => {
     email,
     password,
   }: RegisterUserCredentials): Promise<AuthResultState> => {
-    // setIsLoading(true);
+    setIsLoading(true);
     return createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
         updateProfile(auth.user, {

@@ -46,7 +46,6 @@ export const Login = () => {
     signInCall({ email, password })
       .then((res) => {
         if (res.isSuccessful) {
-          console.log("User logged in sucessfully");
           Store.addNotification({
             title: "Successfully logged in!",
             message: "Welcome back to Pocketmint!",
@@ -100,6 +99,8 @@ export const Login = () => {
               duration: 3000,
             },
           });
+        } else {
+          throw new Error(res.error);
         }
       })
       .catch((err) => {
