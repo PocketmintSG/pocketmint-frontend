@@ -12,6 +12,7 @@ import { RootState } from "src/redux/store";
 
 export const AuthGuard = () => {
   const user = useSelector((state: RootState) => state.authSliceReducer.user);
+  // TODO: Check if user token is expired. For now, log user out if token is expired.
   const [activeSection, setActiveSection] = useState<NavigationItem>(
     NavigationItems[0],
   );

@@ -38,6 +38,7 @@ export const useAuthentication = () => {
     return signInWithEmailAndPassword(auth, email, password)
       .then(async (firebaseRes) => {
         const { user } = firebaseRes;
+        const accessToken = await user.getIdToken();
         if (!user.emailVerified) {
           return {
             isSuccessful: false,
@@ -56,7 +57,7 @@ export const useAuthentication = () => {
         dispatch(setUser({
           username: user.displayName,
           email: user.email,
-          accessToken: await user.getIdToken(),
+          accessToken: accessToken,
           emailVerified: user.emailVerified,
           metadata: {
             lastSignInTime: user.metadata.lastSignInTime,
@@ -65,6 +66,7 @@ export const useAuthentication = () => {
           photoURL: user.photoURL,
           uid: user.uid,
         }));
+        localStorage.setItem("accessToken", accessToken);
         return {
           isSuccessful: true,
           error: null,
@@ -93,8 +95,7 @@ export const useAuthentication = () => {
       .then(async () => {
         const userAccessToken = auth.currentUser.accessToken;
         const res = await registerUserAPI(userAccessToken, username, firstName, lastName)
-        console.log(res)
-        if (res.data.status !== 'success') {
+        if (res.data.status !== StatusEnum.SUCCESS) {
           return {
             isSuccessful: false,
             error: res.data.data.message,
