@@ -86,7 +86,6 @@ export const Login = () => {
             },
           });
         } else if (res.error.code === "auth/wrong-password") {
-          console.log("OH")
           Store.addNotification({
             title: "Wrong email or password!",
             message: `Please check your entered credentials!`,
