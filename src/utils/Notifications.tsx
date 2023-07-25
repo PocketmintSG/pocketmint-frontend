@@ -24,14 +24,14 @@ export const triggerWIPNotification = (
 
 export const triggerGenericNotification = (
   title: string,
-  message: string,
   type: NOTIFICATION_TYPE,
   insert: NOTIFICATION_INSERTION = "top",
   container: NOTIFICATION_CONTAINER = "top-center",
+  message?: string,
 ) => {
   Store.addNotification({
     title: title,
-    message: message.toString(),
+    message: message?.toString() ?? "",
     type: type,
     insert: insert,
     container: container,
