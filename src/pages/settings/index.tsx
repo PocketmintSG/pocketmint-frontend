@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Container } from "src/components/general/containers/Container";
 import HeinrichProfilePicture from "src/assets/placeholders/profile-picture-heinrich-sharp.svg";
 import { Label } from "@/components/general/form/Label";
-import { Form, Formik, FormikHelpers } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import { FormInput } from "@/components/general/form/FormInput";
 import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { FadeLoader } from "react-spinners";
@@ -14,9 +14,24 @@ import { SettingsUpdatePasswordAPI } from "@/api/settings";
 import { getUser } from "@/utils/Store";
 import { triggerGenericNotification } from "@/utils/Notifications";
 import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
+import { UploadImageAPI } from "@/api/file_uploads";
 
 export const Settings = () => {
   const [isUpdatingPersonalInfo, setIsUpdatingPersonalInfo] = useState(false)
+  const [image, setImage] = useState<File>()
+
+  const handleFileChange = async (event) => {
+    setImage(event.target.files[0])
+    const fileUploadRes = await handleFileUpload()
+    if (fileUploadRes.status !== 200) {
+      triggerGenericNotification("Error uploading image", "danger")
+    }
+  }
+
+  const handleFileUpload = async () => {
+    const res = await UploadImageAPI(image!); // guaranteed to be defined due to Formik validation
+    return res
+  }
 
   const user = getUser();
   const updatePasswordValidationSchema = Yup.object().shape({
@@ -88,7 +103,25 @@ export const Settings = () => {
             {({ isSubmitting, submitForm }) => (
               <>
                 <Form className="row-span-1 grid grid-cols-4 gap-10">
-                  <img src={HeinrichProfilePicture} alt="Your Image" className="object-cover h-full col-span-1" />
+                  <label htmlFor="profilePicture">
+                    <img
+                      src={HeinrichProfilePicture}
+                      alt="Your Image"
+                      className="object-cover h-full col-span-1 cursor-pointer"
+                    />
+                  </label>
+
+                  <Field name="profilePicture">
+                    {({ field }) => (
+                      <input
+                        type="file"
+                        id="profilePicture"
+                        style={{ display: "none" }}
+                        {...field}
+                        onChange={handleFileChange}
+                      />
+                    )}
+                  </Field>
                   <div className="col-span-3 grid grid-cols-4 grid-rows-3">
                     <div className="row-span-1 col-span-4">
                       <FormInput name="username" type="text" label="Username" labelProps="font-medium text-darkGrey-600 text-sm" />
