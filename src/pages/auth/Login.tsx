@@ -139,6 +139,8 @@ export const Login = () => {
             },
           });
           navigate("/dashboard");
+        } else if (res.error && res.code && res.code === "auth/user-not-defined") {
+          return;
         } else if (res.error) {
           throw new Error(res.error);
         }
@@ -203,13 +205,14 @@ export const Login = () => {
                 onSubmit={handleSubmit}
               >
                 {({ isSubmitting }) => (
-                  <Form className="flex flex-col gap-5">
+                  <Form className="flex flex-col gap-8">
                     <FormInput name="email" type="email" label="Email" />
                     <div>
                       <FormInput
                         name="password"
                         type="password"
                         label="Password"
+                        className="mb-4"
                       />
                       <button
                         className="text-caption text-darkGrey-600 text-left"

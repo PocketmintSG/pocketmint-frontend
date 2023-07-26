@@ -54,17 +54,17 @@ export const useAuthentication = () => {
             error: apiRes.data.data.message,
           };
         }
+        const userDetails = apiRes.data.data.user;
         dispatch(setUser({
-          username: user.displayName,
-          email: user.email,
-          accessToken: accessToken,
-          emailVerified: user.emailVerified,
-          metadata: {
-            lastSignInTime: user.metadata.lastSignInTime,
-          },
-          phoneNumber: user.phoneNumber,
-          photoURL: user.photoURL,
-          uid: user.uid,
+          uid: userDetails._id,
+          username: userDetails.username,
+          firstName: userDetails.first_name,
+          lastName: userDetails.last_name,
+          email: userDetails.email,
+          profilePicture: userDetails.profile_picture,
+          registeredAt: userDetails.registered_at,
+          lastLoggedIn: userDetails.last_logged_in,
+          roles: userDetails.roles
         }));
         localStorage.setItem("accessToken", accessToken);
         return {
@@ -132,26 +132,57 @@ export const useAuthentication = () => {
   const readGoogleToken = async () => {
     setIsLoading(true);
     return getRedirectResult(auth)
-      .then((res) => {
+      .then(async (res) => {
         const user = res?.user;
-        if (user) {
-          dispatch(setUser(user));
-          return {
-            isSuccessful: true,
-            error: null,
-          };
-        } else {
-          // User is not signed in
+        if (!user) {
           return {
             isSuccessful: false,
-            error: null,
+            error: Error("User is not defined."),
+            code: "auth/user-not-defined"
+          }
+        }
+
+        const accessToken = await user.getIdToken();
+        if (!user.emailVerified) {
+          return {
+            isSuccessful: false,
+            error: Error("User is not verified!"),
+            code: "auth/user-not-verified",
           };
         }
+        const userAccessToken = await user.getIdToken();
+        const apiRes = await loginUserAPI(userAccessToken)
+        if (apiRes.data.status !== StatusEnum.SUCCESS) {
+          return {
+            isSuccessful: false,
+            error: apiRes.data.data.message,
+            code: "auth/generic-auth-error"
+          };
+        }
+        const userDetails = apiRes.data.data.user;
+        dispatch(setUser({
+          uid: userDetails._id,
+          username: userDetails.username,
+          firstName: userDetails.first_name,
+          lastName: userDetails.last_name,
+          email: userDetails.email,
+          profilePicture: userDetails.profile_picture,
+          registeredAt: userDetails.registered_at,
+          lastLoggedIn: userDetails.last_logged_in,
+          roles: userDetails.roles
+        }));
+        localStorage.setItem("accessToken", accessToken);
+        return {
+          isSuccessful: true,
+          error: null,
+          code: "auth/successful-authentication"
+        };
       })
       .catch((err) => {
         return {
           isSuccessful: false,
           error: err,
+          code: "auth/generic-auth-error"
         };
       })
       .finally(() => {

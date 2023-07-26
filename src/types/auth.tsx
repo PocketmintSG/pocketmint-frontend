@@ -1,17 +1,21 @@
 import { User } from "firebase/auth";
 
+export enum Roles {
+  "admin",
+  "insurance_agent",
+  "user"
+}
+
 export interface UserDetails {
-  username: string;
-  email: string;
-  accessToken: string;
-  emailVerified: boolean;
-  metadata: {
-    lastLoginAt: string;
-    lastSignInTime: string;
-  };
-  phoneNumber: string;
-  photoURL: string;
   uid: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  profilePicture: string;
+  registeredAt: string;
+  lastLoggedIn: string;
+  roles: Roles[];
 }
 
 export interface UserCredentials {
