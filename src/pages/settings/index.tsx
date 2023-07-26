@@ -101,7 +101,7 @@ export const Settings = () => {
         <div className="flex flex-row items-center gap-10">
           <Formik initialValues={{ oldPassword: "", newPassword: "", confirmNewPassword: "" }} onSubmit={handleUpdatePassword} validationSchema={updatePasswordValidationSchema}>
             {({ isSubmitting }) => (
-              <Form className="flex flex-col gap-5 w-full">
+              <Form className="flex flex-col gap-10 w-full">
                 <FormInput name="oldPassword" type="password" label="Old Password" labelProps="font-medium text-darkGrey-600 text-sm" />
                 <FormInput name="newPassword" type="password" label="New Password" labelProps="font-medium text-darkGrey-600 text-sm" />
                 <FormInput name="confirmNewPassword" type="password" label="Confirm New Password" labelProps="font-medium text-darkGrey-600 text-sm" />
