@@ -1,5 +1,5 @@
 import { BaseAPIResponse } from "@/types/api";
-import { getAccessToken, getUser } from "@/utils/Store";
+import { getAccessToken } from "@/utils/Store";
 import axios, { AxiosResponse } from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
@@ -21,3 +21,7 @@ export const SettingsUpdatePasswordAPI = (email: string, oldPassword: string, ne
   }, config)
 }
 
+export const SettingsUpdateProfileAPI = (username: string, firstName: string, lastName: string, email: string) => {
+  return axios.post(`${API_URL}/profile_change_details`, {
+  }, config)
+}
