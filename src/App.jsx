@@ -17,6 +17,7 @@ import { Insurance } from "./pages/insurance/index";
 import { Settings } from "./pages/settings/index";
 
 import { Playground } from "./pages/Playground";
+import { APIPlayground } from "./pages/APIPlayground";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,7 @@ export const router = createBrowserRouter(
         <Route path="/reset-password" element={<ResetPassword />} />
       </Route>
       <Route path="/playground" element={<Playground />} />
+      <Route path="/api-playground" element={<APIPlayground />} />
     </Route>
   )
 );

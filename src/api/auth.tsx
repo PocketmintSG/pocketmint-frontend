@@ -1,20 +1,20 @@
-import axios from "axios";
-import { LoginUserCredentials } from "src/types/auth";
+import { BaseAPIResponse } from "@/types/api";
+import axios, { AxiosResponse } from "axios";
 
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = import.meta.env.VITE_BASE_URL
+const API_URL = BASE_URL + "/api"
 
-export const loginUserAPI = async ({
-  email,
-  password,
-}: LoginUserCredentials) => {
-  console.log("Calling API to log in user");
-  return axios
-    .post(BASE_URL + "/login", {
-      email,
-      password,
-    })
-    .then((res) => {
-      console.log(res);
-      return res;
-    });
+export const loginUserAPI = async (userToken: string): Promise<BaseAPIResponse> => {
+  return axios.post(API_URL + "/login", {
+    token: userToken,
+  })
+};
+
+export const registerUserAPI = async (userToken: string, username: string, firstName: string, lastName: string): Promise<BaseAPIResponse> => {
+  return axios.post(API_URL + "/register", {
+    "token": userToken,
+    "username": username,
+    "first_name": firstName,
+    "last_name": lastName
+  })
 };

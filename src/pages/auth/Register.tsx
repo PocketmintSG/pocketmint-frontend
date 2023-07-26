@@ -15,7 +15,6 @@ import AuthScreenCover from "src/assets/auth/AuthScreenCover.svg";
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg";
 
 import { emailSchema, passwordRegistrationSchema } from "src/utils/auth/Validation";
-import { useSpring, animated, config } from "react-spring";
 import { ScreenSpinner } from "src/components/auth/ScreenSpinner";
 
 interface RegisterUserCredentialsWithPasswordConfirmation
@@ -49,9 +48,8 @@ export const Register = () => {
     values: RegisterUserCredentialsWithPasswordConfirmation,
     actions: FormikHelpers<RegisterUserCredentialsWithPasswordConfirmation>,
   ) => {
-    const { username, email, password } = values;
-    console.log(email, password);
-    signUpCall({ username, email, password })
+    const { username, firstName, lastName, email, password } = values;
+    signUpCall({ username, firstName, lastName, email, password })
       .then((res) => {
         console.log(res);
         if (res.isSuccessful) {
@@ -85,6 +83,8 @@ export const Register = () => {
               duration: 3000,
             },
           });
+        } else {
+          throw new Error(res.error);
         }
       })
       .catch((err) => {
@@ -146,6 +146,8 @@ export const Register = () => {
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
+    firstName: Yup.string().required("First name is required"),
+    lastName: Yup.string().required("Last name is required"),
     email: emailSchema,
     password: passwordRegistrationSchema,
     confirmPassword: Yup.string()
@@ -186,6 +188,8 @@ export const Register = () => {
               <Formik
                 initialValues={{
                   username: "",
+                  firstName: "",
+                  lastName: "",
                   email: "",
                   password: "",
                   confirmPassword: "",
@@ -196,6 +200,8 @@ export const Register = () => {
                 {({ isSubmitting }) => (
                   <Form className="flex flex-col gap-5">
                     <FormInput name="username" type="text" label="Username" />
+                    <FormInput name="firstName" type="text" label="First Name" />
+                    <FormInput name="lastName" type="text" label="Last Name" />
                     <FormInput name="email" type="email" label="Email" />
                     <FormInput
                       name="password"

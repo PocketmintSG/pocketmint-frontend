@@ -1,11 +1,13 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
 import { mergeClasses } from "src/utils/MergeClasses";
+import { cn } from "@/lib/utils";
 
 interface FormInputProps {
   label: string;
   name: string;
   type: string;
+  labelProps?: string;
   placeholder?: string;
   className?: string;
 }
@@ -14,16 +16,17 @@ export const FormInput = ({
   label,
   name,
   type,
+  labelProps = "",
   placeholder = "",
   className = "",
   ...restProps
 }: FormInputProps) => {
   const classes = mergeClasses({
-    classes: ["flex flex-col", className],
+    classes: ["flex flex-col h-[50px]", className],
   });
   return (
     <div className={classes} {...restProps}>
-      <label htmlFor={label} className="text-lg font-medium">
+      <label htmlFor={label} className={cn("text-lg font-medium", labelProps)}>
         {label}
       </label>
       <Field
@@ -37,6 +40,6 @@ export const FormInput = ({
         name={name}
         component="div"
       />
-    </div>
+    </div >
   );
 };

@@ -6,6 +6,7 @@ import { IoMdSettings } from "react-icons/io";
 
 export interface NavigationItem {
   menuLabel: string;
+  pageLabel: string;
   icon: React.JSX.Element;
   link: string;
   tabs: TabProps[];
@@ -25,6 +26,7 @@ interface SubTabProps {
 export const NavigationItems: NavigationItem[] = [
   {
     menuLabel: "Investments",
+    pageLabel: "Your Investments",
     icon: <AiOutlineStock />,
     link: "/dashboard",
     tabs: [
@@ -62,6 +64,7 @@ export const NavigationItems: NavigationItem[] = [
   },
   {
     menuLabel: "Expenses",
+    pageLabel: "Your Expenses",
     icon: <MdAttachMoney />,
     link: "/expenses",
     tabs: [
@@ -77,12 +80,14 @@ export const NavigationItems: NavigationItem[] = [
   },
   {
     menuLabel: "Insurance",
+    pageLabel: "Your Insurance",
     icon: <BsShieldFillCheck />,
     link: "/insurance",
     tabs: [],
   },
   {
     menuLabel: "Settings",
+    pageLabel: "Settings",
     icon: <IoMdSettings />,
     link: "/settings",
     tabs: [

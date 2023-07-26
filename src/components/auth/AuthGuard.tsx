@@ -12,6 +12,7 @@ import { RootState } from "src/redux/store";
 
 export const AuthGuard = () => {
   const user = useSelector((state: RootState) => state.authSliceReducer.user);
+  // TODO: Check if user token is expired. For now, log user out if token is expired.
   const [activeSection, setActiveSection] = useState<NavigationItem>(
     NavigationItems[0],
   );
@@ -22,7 +23,6 @@ export const AuthGuard = () => {
     setActiveTab(newTab.tabTitle);
   };
   const handleSectionSwitch = (newSection: NavigationItem) => {
-    console.log(newSection);
     setActiveSection(newSection);
     setActiveTab(
       newSection.tabs.length !== 0 ? newSection.tabs[0].tabTitle : "",
@@ -42,7 +42,7 @@ export const AuthGuard = () => {
       />
       <div className="flex flex-col h-full w-full">
         <Header
-          pageTitle="test"
+          pageTitle={activeSection.pageLabel}
           activeTab={activeTab}
           setActiveTab={handleTabSwitch}
           tabs={activeSection.tabs}

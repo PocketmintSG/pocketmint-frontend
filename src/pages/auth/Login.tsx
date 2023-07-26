@@ -46,7 +46,6 @@ export const Login = () => {
     signInCall({ email, password })
       .then((res) => {
         if (res.isSuccessful) {
-          console.log("User logged in sucessfully");
           Store.addNotification({
             title: "Successfully logged in!",
             message: "Welcome back to Pocketmint!",
@@ -87,7 +86,6 @@ export const Login = () => {
             },
           });
         } else if (res.error.code === "auth/wrong-password") {
-          console.log("OH")
           Store.addNotification({
             title: "Wrong email or password!",
             message: `Please check your entered credentials!`,
@@ -100,6 +98,8 @@ export const Login = () => {
               duration: 3000,
             },
           });
+        } else {
+          throw new Error(res.error);
         }
       })
       .catch((err) => {
@@ -139,6 +139,8 @@ export const Login = () => {
             },
           });
           navigate("/dashboard");
+        } else if (res.error && res.code && res.code === "auth/user-not-defined") {
+          return;
         } else if (res.error) {
           throw new Error(res.error);
         }
@@ -203,13 +205,14 @@ export const Login = () => {
                 onSubmit={handleSubmit}
               >
                 {({ isSubmitting }) => (
-                  <Form className="flex flex-col gap-5">
+                  <Form className="flex flex-col gap-8">
                     <FormInput name="email" type="email" label="Email" />
                     <div>
                       <FormInput
                         name="password"
                         type="password"
                         label="Password"
+                        className="mb-8"
                       />
                       <button
                         className="text-caption text-darkGrey-600 text-left"

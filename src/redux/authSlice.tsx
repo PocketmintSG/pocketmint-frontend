@@ -1,17 +1,8 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
-import { User } from "firebase/auth";
-import { loginUserAPI } from "src/api/auth";
-import { useLocalStorage } from "src/api/storage";
-import {
-  AuthState,
-  LoginUserCredentials,
-  RegisterUserCredentials,
-  UserCredentials,
-} from "src/types/auth";
+import { UserDetails } from "@/types/auth";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface UserState {
-  user: User | null;
+  user: UserDetails | null;
 }
 
 const initialState: UserState = {
@@ -28,9 +19,15 @@ const authSlice = createSlice({
     clearUserData: (state, action) => {
       state.user = null;
     },
+    updateUser: (state, action) => {
+      state.user = {
+        ...state.user,
+        ...action.payload,
+      }
+    }
   },
 });
 
-export const { setUser, clearUserData } = authSlice.actions;
+export const { setUser, clearUserData, updateUser } = authSlice.actions;
 
 export default authSlice.reducer;

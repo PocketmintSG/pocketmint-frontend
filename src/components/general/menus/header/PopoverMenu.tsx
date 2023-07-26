@@ -24,7 +24,7 @@ export const PopoverMenu = ({
           onMouseLeave={() => setIsHovered(false)}
         >
           <Popover.Button
-            className={`border-b-2 border-white pl-12 pr-12 ${isActiveTab ? "hover:font-bold" : "hover:font-medium"
+            className={`border-b-2 border-white pl-20 pr-20 ${isActiveTab ? "hover:font-bold" : "hover:font-medium"
               } ${isActiveTab ? "font-bold" : "font-base"}`}
             onClick={() => handleTabSwitch(tabData.tabTitle)}
           >

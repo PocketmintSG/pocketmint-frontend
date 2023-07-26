@@ -1,3 +1,23 @@
+import { User } from "firebase/auth";
+
+export enum Roles {
+  "admin",
+  "insurance_agent",
+  "user"
+}
+
+export interface UserDetails {
+  uid: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  profilePicture: string;
+  registeredAt: string;
+  lastLoggedIn: string;
+  roles: Roles[];
+}
+
 export interface UserCredentials {
   username: string;
   email: string;
@@ -11,6 +31,8 @@ export interface LoginUserCredentials {
 
 export interface RegisterUserCredentials {
   username: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }
@@ -33,5 +55,5 @@ export interface AuthResultState {
   isSuccessful: boolean;
   error: any;
   code?: string;
-  user?: any;
+  user?: User;
 }
