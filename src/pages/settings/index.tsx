@@ -1,7 +1,6 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import React, { useState } from "react";
 import { Container } from "src/components/general/containers/Container";
-import HeinrichProfilePicture from "src/assets/placeholders/profile-picture-heinrich-sharp.svg";
 import { Label } from "@/components/general/form/Label";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { FormInput } from "@/components/general/form/FormInput";
@@ -10,30 +9,41 @@ import { FadeLoader } from "react-spinners";
 import { ProfileResetPasswordCredentials, UpdateProfileDetails } from "@/types/settings";
 import * as Yup from "yup";
 import { emailSchema, passwordRegistrationSchema } from "@/utils/auth/Validation";
-import { SettingsUpdatePasswordAPI } from "@/api/settings";
+import { SettingsUpdatePasswordAPI, SettingsUpdateProfileAPI } from "@/api/settings";
 import { getUser } from "@/utils/Store";
 import { triggerGenericNotification } from "@/utils/Notifications";
 import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
 import { UploadImageAPI } from "@/api/file_uploads";
+import { updateUser } from "@/redux/authSlice";
+import { useDispatch } from "react-redux";
 
 export const Settings = () => {
-  const [isUpdatingPersonalInfo, setIsUpdatingPersonalInfo] = useState(false)
-  const [image, setImage] = useState<File>()
+  const user = getUser()
+  const dispatch = useDispatch()
 
-  const handleFileChange = async (event) => {
-    setImage(event.target.files[0])
-    const fileUploadRes = await handleFileUpload()
+  const [isUpdatingPersonalInfo, setIsUpdatingPersonalInfo] = useState(false)
+  const [profilePictureURL, setProfilePictureURL] = useState<string>(user?.profilePicture ?? "")
+
+
+  const handleFileChange = async (event, setSubmitting) => {
+    setSubmitting(true)
+    const fileUploadRes = await handleFileUpload(event.target.files[0])
     if (fileUploadRes.status !== 200) {
       triggerGenericNotification("Error uploading image", "danger")
+    } else {
+      triggerGenericNotification("Image uploaded successfully!", "success")
     }
+    setProfilePictureURL(fileUploadRes.data.data.image_url)
+    console.log(fileUploadRes.data.data.image_url)
+    console.log(profilePictureURL)
+    setSubmitting(false)
   }
 
-  const handleFileUpload = async () => {
-    const res = await UploadImageAPI(image!); // guaranteed to be defined due to Formik validation
+  const handleFileUpload = async (imageFile: File) => {
+    const res = await UploadImageAPI(imageFile);
     return res
   }
 
-  const user = getUser();
   const updatePasswordValidationSchema = Yup.object().shape({
     oldPassword: Yup.string().required("Old password is required"),
     newPassword: passwordRegistrationSchema,
@@ -58,8 +68,24 @@ export const Settings = () => {
 
   const handleUpdateProfile = async (values: UpdateProfileDetails, actions: FormikHelpers<UpdateProfileDetails>) => {
     actions.setSubmitting(true)
-    console.log(values)
+    const res = await SettingsUpdateProfileAPI(user?.uid ?? "", values.username, profilePictureURL, values.firstName, values.lastName, values.email)
+    if (res.status === 200) {
+      triggerGenericNotification("Profile updated successfully", "success")
+    } else {
+      triggerGenericNotification("Error updating profile", "danger")
+    }
+
+    // Update Redux store
+    dispatch(updateUser({
+      username: values.username,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      profilePicture: profilePictureURL
+    }))
+
     actions.setSubmitting(false)
+    setIsUpdatingPersonalInfo(false)
   }
 
   return <Container className="bg-containerBackground h-[100vh] flex flex-col gap-10">
@@ -68,19 +94,19 @@ export const Settings = () => {
         <CardTitle className="text-lg mb-6">Personal Information</CardTitle>
         <CardContent className="p-0 h-[30vh] grid grid-rows-[80%_20%] gap-6">
           <div className="row-span-1 grid grid-cols-4 gap-10">
-            <img src={HeinrichProfilePicture} alt="Your Image" className="object-cover h-full col-span-1" />
+            <img src={profilePictureURL} alt="Profile Picture URL" className="object-cover h-full col-span-1" />
             <div className="col-span-3 grid grid-cols-4 grid-rows-3 gap-4">
               <div className="row-span-1 col-span-4">
-                <Label labelTitle="Username" labelContent="heinrich_lee" />
+                <Label labelTitle="Username" labelContent={user?.username ?? ""} />
               </div>
 
               <div className="row-span-1 col-span-4 grid grid-cols-4">
-                <Label className="col-span-2" labelTitle="First Name" labelContent="Heinrich" />
-                <Label className="col-span-2" labelTitle="Last Name" labelContent="Lee" />
+                <Label className="col-span-2" labelTitle="First Name" labelContent={user?.firstName ?? ""} />
+                <Label className="col-span-2" labelTitle="Last Name" labelContent={user?.lastName ?? ""} />
               </div>
 
               <div>
-                <Label className="row-span-1 col-span-4" labelTitle="Email address" labelContent="heinrich_lee@gmail.com" />
+                <Label className="row-span-1 col-span-4" labelTitle="Email address" labelContent={user?.email ?? ""} />
               </div>
             </div>
           </div>
@@ -100,14 +126,14 @@ export const Settings = () => {
             lastName: user?.lastName ?? "",
             email: user?.email ?? "",
           }} validationSchema={updateProfileValidationSchema} onSubmit={handleUpdateProfile}>
-            {({ isSubmitting, submitForm }) => (
+            {({ isSubmitting, setSubmitting, submitForm }) => (
               <>
                 <Form className="row-span-1 grid grid-cols-4 gap-10">
                   <label htmlFor="profilePicture">
                     <img
-                      src={HeinrichProfilePicture}
-                      alt="Your Image"
-                      className="object-cover h-full col-span-1 cursor-pointer"
+                      src={profilePictureURL}
+                      alt="Profile Picture"
+                      className="object-cover h-full col-span-1 cursor-pointer hover:opacity-80"
                     />
                   </label>
 
@@ -118,7 +144,7 @@ export const Settings = () => {
                         id="profilePicture"
                         style={{ display: "none" }}
                         {...field}
-                        onChange={handleFileChange}
+                        onChange={(event) => handleFileChange(event, setSubmitting)}
                       />
                     )}
                   </Field>

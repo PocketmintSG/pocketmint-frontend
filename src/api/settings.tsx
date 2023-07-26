@@ -21,7 +21,13 @@ export const SettingsUpdatePasswordAPI = (email: string, oldPassword: string, ne
   }, config)
 }
 
-export const SettingsUpdateProfileAPI = (username: string, firstName: string, lastName: string, email: string) => {
-  return axios.post(`${API_URL}/profile_change_details`, {
+export const SettingsUpdateProfileAPI = (uid: string, username: string, profilePictureURL: string, firstName: string, lastName: string, email: string) => {
+  return axios.post(`${API_URL}/update_profile`, {
+    uid,
+    username,
+    "first_name": firstName,
+    "last_name": lastName,
+    email,
+    "profile_picture_url": profilePictureURL,
   }, config)
 }
