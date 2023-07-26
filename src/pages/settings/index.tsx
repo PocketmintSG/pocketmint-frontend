@@ -7,9 +7,9 @@ import { Form, Formik, FormikHelpers } from "formik";
 import { FormInput } from "@/components/general/form/FormInput";
 import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { FadeLoader } from "react-spinners";
-import { ProfileResetPasswordCredentials } from "@/types/settings";
+import { ProfileResetPasswordCredentials, UpdateProfileDetails } from "@/types/settings";
 import * as Yup from "yup";
-import { passwordRegistrationSchema } from "@/utils/auth/Validation";
+import { emailSchema, passwordRegistrationSchema } from "@/utils/auth/Validation";
 import { SettingsUpdatePasswordAPI } from "@/api/settings";
 import { getUser } from "@/utils/Store";
 import { triggerGenericNotification } from "@/utils/Notifications";
@@ -27,12 +27,26 @@ export const Settings = () => {
       .oneOf([Yup.ref("newPassword"), ""], "Passwords must match"),
   });
 
+  const updateProfileValidationSchema = Yup.object().shape({
+    username: Yup.string().required("Username is required"),
+    firstName: Yup.string().required("First name is required"),
+    lastName: Yup.string().required("Last name is required"),
+    email: emailSchema,
+  });
+
   const handleUpdatePassword = async (values: ProfileResetPasswordCredentials, actions: FormikHelpers<ProfileResetPasswordCredentials>) => {
     const { oldPassword, newPassword, confirmNewPassword } = values;
     const email = user?.email ?? ""
     const res = await SettingsUpdatePasswordAPI(email, oldPassword, newPassword, confirmNewPassword)
     triggerGenericNotification("Password updated successfully", "success")
   }
+
+  const handleUpdateProfile = async (values: UpdateProfileDetails, actions: FormikHelpers<UpdateProfileDetails>) => {
+    actions.setSubmitting(true)
+    console.log(values)
+    actions.setSubmitting(false)
+  }
+
   return <Container className="bg-containerBackground h-[100vh] flex flex-col gap-10">
     {!isUpdatingPersonalInfo &&
       <Card className="p-10 -mt-3 z-10">
@@ -65,8 +79,13 @@ export const Settings = () => {
       <Card className="p-10 -mt-3 z-10">
         <CardTitle className="text-lg mb-6">Personal Information</CardTitle>
         <CardContent className="p-0 h-[30vh] grid grid-rows-[80%_20%] gap-6">
-          <Formik>
-            {({ isSubmitting }) => (
+          <Formik initialValues={{
+            username: user?.username ?? "",
+            firstName: user?.firstName ?? "",
+            lastName: user?.lastName ?? "",
+            email: user?.email ?? "",
+          }} validationSchema={updateProfileValidationSchema} onSubmit={handleUpdateProfile}>
+            {({ isSubmitting, submitForm }) => (
               <>
                 <Form className="row-span-1 grid grid-cols-4 gap-10">
                   <img src={HeinrichProfilePicture} alt="Your Image" className="object-cover h-full col-span-1" />
@@ -87,7 +106,7 @@ export const Settings = () => {
                 </Form>
                 <div className="row-span-1 flex items-center justify-end gap-4">
                   <ButtonGhost onClick={() => setIsUpdatingPersonalInfo(!isUpdatingPersonalInfo)}>Cancel</ButtonGhost>
-                  <ButtonFilled onClick={() => setIsUpdatingPersonalInfo(!isUpdatingPersonalInfo)}>Confirm</ButtonFilled>
+                  <ButtonFilled onClick={() => submitForm()} type="submit">{isSubmitting ? <FadeLoader /> : "Confirm"}</ButtonFilled>
                 </div>
               </>
             )}
