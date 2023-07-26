@@ -212,7 +212,7 @@ export const Login = () => {
                         name="password"
                         type="password"
                         label="Password"
-                        className="mb-4"
+                        className="mb-8"
                       />
                       <button
                         className="text-caption text-darkGrey-600 text-left"
