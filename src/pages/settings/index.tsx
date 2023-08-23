@@ -34,8 +34,6 @@ export const Settings = () => {
       triggerGenericNotification("Image uploaded successfully!", "success")
     }
     setProfilePictureURL(fileUploadRes.data.data.image_url)
-    console.log(fileUploadRes.data.data.image_url)
-    console.log(profilePictureURL)
     setSubmitting(false)
   }
 
