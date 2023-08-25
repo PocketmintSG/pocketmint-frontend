@@ -59,7 +59,7 @@ export interface InsuranceModelPolicyDetails {
     insured_person: string;
     insurer: string;
     beneficiary: string;
-    maturity_date: Date;
+    maturity_date: string;
 }
 
 export interface InsuranceModelInsuranceCoverage {
