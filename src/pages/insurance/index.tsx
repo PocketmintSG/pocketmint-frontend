@@ -11,6 +11,7 @@ import { FormInput } from "@/components/general/form/FormInput";
 import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
 import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { AiOutlinePlus } from "react-icons/ai";
+import { ExpandedInsuranceRow } from "@/components/insurance/ExpandedInsuranceRow";
 
 const insuranceData = {
     "status": "success",
@@ -196,7 +197,7 @@ export const Insurance = () => {
                 </ButtonFilled>
             </div>
             <div>
-                <DataTable title="Insurance Table" subHeader subHeaderComponent={subHeaderComponentMemo} columns={insuranceTableColumns} data={filteredInsuranceList} pagination paginationResetDefaultPage={resetPaginationToggle} />
+                <DataTable title="Insurance Table" subHeader subHeaderComponent={subHeaderComponentMemo} columns={insuranceTableColumns} data={filteredInsuranceList} pagination paginationResetDefaultPage={resetPaginationToggle} expandableRows expandableRowsComponent={ExpandedInsuranceRow} />
             </div>
         </div>
     </Container >
