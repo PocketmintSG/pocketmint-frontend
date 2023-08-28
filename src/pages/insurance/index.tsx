@@ -12,6 +12,7 @@ import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
 import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ExpandedInsuranceRow } from "@/components/insurance/ExpandedInsuranceRow";
+import { FadeLoader } from "react-spinners";
 
 const insuranceData = {
     "status": "success",
@@ -112,23 +113,27 @@ const insuranceTableColumns = [
 export const Insurance = () => {
     const user = getUser()
     const [insuranceSummary, setInsuranceSummary] = useState(null)
-    const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
-    const [filterText, setFilterText] = React.useState('');
+    const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+    const [filterText, setFilterText] = useState('');
     const [insuranceList, setInsuranceList] = useState<InsuranceModelMinified[]>([])
     const [filteredInsuranceList, setFilteredInsuranceList] = useState<InsuranceModelMinified[]>([])
     const [insuranceType, setInsuranceType] = useState<InsuranceTypes>(InsuranceTypes.INSURANCE_GENERAL)
 
+    // Loading states
+    const [isLoadingSummary, setIsLoadingSummary] = useState<Boolean>(true)
+    const [isLoadingInsurance, setIsLoadingInsurance] = useState<Boolean>(true)
 
     useEffect(() => {
         FetchInsuranceSummariesAPI(user?.uid!).then((res) => {
             setInsuranceSummary(res.data.data)
-        })
-        // ListInsuranceAPI(user?.uid!).then((res) => {
-        // setInsuranceList(res.data.data)
-        // setFilteredInsuranceList(res.data.data)
-        // })
-        setInsuranceList(insuranceData.data)
-        setFilteredInsuranceList(insuranceData.data)
+        }).finally(() => setIsLoadingSummary(false))
+
+        ListInsuranceAPI(user?.uid!).then((res) => {
+            setInsuranceList(res.data.data)
+            setFilteredInsuranceList(res.data.data)
+        }).finally(() => setIsLoadingInsurance(false))
+        // setInsuranceList(insuranceData.data)
+        // setFilteredInsuranceList(insuranceData.data)
     }, [])
 
     useEffect(() => {
@@ -174,10 +179,16 @@ export const Insurance = () => {
     return <Container className="mt-0">
         <div className="flex flex-row gap-3 pt-3">
             {insuranceSummary &&
-                <>
+                <div className="flex flex-row h-[50%] w-full gap-5">
                     <InsuranceCoverageCard className="w-[50%]" {...insuranceSummary["insurance_coverage"]} />
                     <MaxSumInsuredCard className="w-[50%]" {...insuranceSummary["maximum_sum_insured"]} />
-                </>
+                </div>
+            }
+            {
+                isLoadingSummary &&
+                <div className="h-[40vh] w-full flex items-center justify-center">
+                    <FadeLoader />
+                </div>
             }
         </div>
         <div className="mt-3">
