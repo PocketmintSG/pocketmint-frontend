@@ -1,4 +1,4 @@
-import { InsuranceModel } from "@/types/insurance"
+import { InsuranceModel, InsuranceCategory } from "@/types/insurance"
 import { API_URL, requestHeader } from "@/utils/api"
 import axios from "axios"
 
@@ -10,9 +10,10 @@ export const ReadInsuranceAPI = async (insuranceId: string) => {
     return axios.get(API_URL + "/get_insurance/" + insuranceId, requestHeader)
 }
 
-export const ListInsuranceAPI = async (userId: string) => {
+export const ListInsuranceAPI = async (userId: string, insuranceCategory: InsuranceCategory) => {
     return axios.post(API_URL + "/list_insurance", {
-        "user_id": userId
+        "user_id": userId,
+        "insurance_category": insuranceCategory
     }, requestHeader)
 }
 export const UpdateInsuranceAPI = async (userId: string, insuranceId: string, insuranceData: InsuranceModel) => {

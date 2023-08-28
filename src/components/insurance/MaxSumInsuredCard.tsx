@@ -43,10 +43,10 @@ export const MaxSumInsuredCard = ({ life, "accident_and_health": accidentAndHeal
                     </div>
                 </div>
                 <div className="flex flex-row gap-10">
-                    <img src="/src/assets/insurance/OthersLogo.svg" alt="Others Logo" className="w-[60px] h-[60px]" />
+                    <img src="/src/assets/insurance/GeneralLogo.svg" alt="General Logo" className="w-[60px] h-[60px]" />
                     <div>
-                        <span className="font-semibold text-md">Others</span>
-                        <p className="font-light">Other Policies: ${others}</p>
+                        <span className="font-semibold text-md">General</span>
+                        <p className="font-light">General Policies: ${others}</p>
                     </div>
                 </div>
             </div>

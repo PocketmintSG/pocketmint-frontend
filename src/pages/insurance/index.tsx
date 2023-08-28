@@ -5,7 +5,7 @@ import { MaxSumInsuredCard } from "@/components/insurance/MaxSumInsuredCard";
 import { FetchInsuranceSummariesAPI, ListInsuranceAPI } from "@/api/insurance";
 import { getUser } from "@/utils/Store";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CoverageType, InsuranceModelMinified, InsuranceTypes } from "@/types/insurance";
+import { CoverageType, InsuranceModelMinified, InsuranceCategory } from "@/types/insurance";
 import DataTable from "react-data-table-component";
 import { FormInput } from "@/components/general/form/FormInput";
 import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
@@ -117,7 +117,7 @@ export const Insurance = () => {
     const [filterText, setFilterText] = useState('');
     const [insuranceList, setInsuranceList] = useState<InsuranceModelMinified[]>([])
     const [filteredInsuranceList, setFilteredInsuranceList] = useState<InsuranceModelMinified[]>([])
-    const [insuranceType, setInsuranceType] = useState<InsuranceTypes>(InsuranceTypes.INSURANCE_GENERAL)
+    const [insuranceCategory, setInsuranceCategory] = useState<InsuranceCategory>(InsuranceCategory.INSURANCE_GENERAL)
 
     // Loading states
     const [isLoadingSummary, setIsLoadingSummary] = useState<Boolean>(true)
@@ -128,13 +128,14 @@ export const Insurance = () => {
             setInsuranceSummary(res.data.data)
         }).finally(() => setIsLoadingSummary(false))
 
-        ListInsuranceAPI(user?.uid!).then((res) => {
+    }, [])
+
+    useEffect(() => {
+        ListInsuranceAPI(user?.uid!, insuranceCategory).then((res) => {
             setInsuranceList(res.data.data)
             setFilteredInsuranceList(res.data.data)
         }).finally(() => setIsLoadingInsurance(false))
-        // setInsuranceList(insuranceData.data)
-        // setFilteredInsuranceList(insuranceData.data)
-    }, [])
+    }, [insuranceCategory])
 
     useEffect(() => {
         if (filterText !== "") {
@@ -193,12 +194,12 @@ export const Insurance = () => {
         </div>
         <div className="mt-3">
             <div className="flex flex-row justify-between w-full">
-                <Tabs defaultValue={insuranceType} onValueChange={(value: InsuranceTypes) => setInsuranceType(value)}>
+                <Tabs defaultValue={insuranceCategory} onValueChange={(value: InsuranceCategory) => setInsuranceCategory(value)}>
                     <TabsList className="col-span-1 grid grid-cols-4">
-                        <TabsTrigger value={InsuranceTypes.INSURANCE_GENERAL}>General</TabsTrigger>
-                        <TabsTrigger value={InsuranceTypes.INSURANCE_HEALTH}>Health</TabsTrigger>
-                        <TabsTrigger value={InsuranceTypes.INSURANCE_LIFE}>Life</TabsTrigger>
-                        <TabsTrigger value={InsuranceTypes.INSURANCE_INVESTMENTS}>Investments</TabsTrigger>
+                        <TabsTrigger value={InsuranceCategory.INSURANCE_GENERAL}>General</TabsTrigger>
+                        <TabsTrigger value={InsuranceCategory.INSURANCE_HEALTH}>Health</TabsTrigger>
+                        <TabsTrigger value={InsuranceCategory.INSURANCE_LIFE}>Life</TabsTrigger>
+                        <TabsTrigger value={InsuranceCategory.INSURANCE_INVESTMENTS}>Investments</TabsTrigger>
                     </TabsList>
                 </Tabs>
 
@@ -207,9 +208,10 @@ export const Insurance = () => {
                     Add Insurance
                 </ButtonFilled>
             </div>
-            <div>
-                <DataTable title="Insurance Table" subHeader subHeaderComponent={subHeaderComponentMemo} columns={insuranceTableColumns} data={filteredInsuranceList} pagination paginationResetDefaultPage={resetPaginationToggle} expandableRows expandableRowsComponent={ExpandedInsuranceRow} />
-            </div>
+            {isLoadingInsurance
+                ? <div className="h-[40vh] w-full flex items-center justify-center"><FadeLoader /></div>
+                : <DataTable title="Insurance Table" subHeader subHeaderComponent={subHeaderComponentMemo} columns={insuranceTableColumns} data={filteredInsuranceList} pagination paginationResetDefaultPage={resetPaginationToggle} expandableRows expandableRowsComponent={ExpandedInsuranceRow} />
+            }
         </div>
     </Container >
 };

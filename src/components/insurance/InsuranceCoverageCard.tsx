@@ -20,11 +20,11 @@ export interface InsuranceCoverageCardProps {
         "investment_related": boolean
         "retirement": boolean
     }
-    "others": boolean
+    "general": boolean
     className: string
 }
 
-export const InsuranceCoverageCard = ({ total_annual_premiums: totalAnnualPremiums, life, accident_and_health: accidentAndHealth, investments, others, className }: InsuranceCoverageCardProps) => {
+export const InsuranceCoverageCard = ({ total_annual_premiums: totalAnnualPremiums, life, accident_and_health: accidentAndHealth, investments, general, className }: InsuranceCoverageCardProps) => {
     return <Card className={className}>
         <CardHeader>
             <CardTitle className="text-lg">Insurance Coverage</CardTitle>
@@ -72,11 +72,11 @@ export const InsuranceCoverageCard = ({ total_annual_premiums: totalAnnualPremiu
                 </div>
 
                 <div className="flex flex-row w-full">
-                    <img src="/src/assets/insurance/OthersLogo.svg" alt="Others Logo" className="w-[60px] h-[60px]" />
+                    <img src="/src/assets/insurance/GeneralLogo.svg" alt="General Insurance Logo" className="w-[60px] h-[60px]" />
                     <div className="ml-10">
-                        <span className="font-semibold text-md">Others</span>
+                        <span className="font-semibold text-md">General</span>
                         <ul className="grid grid-cols-2 grid-rows-2">
-                            <InsuranceCoverageItemWrapper label="Other Policies" checked={others} />
+                            <InsuranceCoverageItemWrapper label="General Policies" checked={general} />
                         </ul>
                     </div>
                 </div>

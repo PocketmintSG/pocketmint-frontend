@@ -1,4 +1,4 @@
-export enum InsuranceTypes {
+export enum InsuranceCategory {
     INSURANCE_GENERAL = "General",
     INSURANCE_HEALTH = "Health",
     INSURANCE_LIFE = "Life",
