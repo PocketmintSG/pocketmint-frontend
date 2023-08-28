@@ -5,7 +5,7 @@ import { InsuranceModel, InsuranceModelMinified } from "@/types/insurance";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BsClipboard, BsFillTelephoneFill } from "react-icons/bs";
-import { FaAd, FaAddressBook } from "react-icons/fa"
+import { FaAddressBook } from "react-icons/fa"
 
 const sampleData = {
     "status": "success",
