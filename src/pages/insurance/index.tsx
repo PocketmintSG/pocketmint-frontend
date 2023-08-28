@@ -177,7 +177,7 @@ export const Insurance = () => {
         );
     }, [filterText, resetPaginationToggle]);
 
-    return <Container className="mt-0">
+    return <Container className="mt-0 pb-5">
         <div className="flex flex-row gap-3 pt-3">
             {insuranceSummary &&
                 <div className="flex flex-row h-[50%] w-full gap-5">
@@ -194,7 +194,10 @@ export const Insurance = () => {
         </div>
         <div className="mt-3">
             <div className="flex flex-row justify-between w-full">
-                <Tabs defaultValue={insuranceCategory} onValueChange={(value: InsuranceCategory) => setInsuranceCategory(value)}>
+                <Tabs defaultValue={insuranceCategory} onValueChange={(value: InsuranceCategory) => {
+                    setIsLoadingInsurance(true)
+                    setInsuranceCategory(value)
+                }}>
                     <TabsList className="col-span-1 grid grid-cols-4">
                         <TabsTrigger value={InsuranceCategory.INSURANCE_GENERAL}>General</TabsTrigger>
                         <TabsTrigger value={InsuranceCategory.INSURANCE_HEALTH}>Health</TabsTrigger>
