@@ -117,11 +117,11 @@ export const Insurance = () => {
     const [filterText, setFilterText] = useState('');
     const [insuranceList, setInsuranceList] = useState<InsuranceModelMinified[]>([])
     const [filteredInsuranceList, setFilteredInsuranceList] = useState<InsuranceModelMinified[]>([])
-    const [insuranceCategory, setInsuranceCategory] = useState<InsuranceCategory>(InsuranceCategory.INSURANCE_GENERAL)
+    const [insuranceCategory, setInsuranceCategory] = useState<InsuranceCategory | "">(InsuranceCategory.INSURANCE_GENERAL)
 
     // Loading states
-    const [isLoadingSummary, setIsLoadingSummary] = useState<Boolean>(true)
-    const [isLoadingInsurance, setIsLoadingInsurance] = useState<Boolean>(true)
+    const [isLoadingSummary, setIsLoadingSummary] = useState(true)
+    const [isLoadingInsurance, setIsLoadingInsurance] = useState(true)
 
     useEffect(() => {
         FetchInsuranceSummariesAPI(user?.uid!).then((res) => {
@@ -198,11 +198,12 @@ export const Insurance = () => {
                     setIsLoadingInsurance(true)
                     setInsuranceCategory(value)
                 }}>
-                    <TabsList className="col-span-1 grid grid-cols-4">
-                        <TabsTrigger value={InsuranceCategory.INSURANCE_GENERAL}>General</TabsTrigger>
-                        <TabsTrigger value={InsuranceCategory.INSURANCE_HEALTH}>Health</TabsTrigger>
-                        <TabsTrigger value={InsuranceCategory.INSURANCE_LIFE}>Life</TabsTrigger>
-                        <TabsTrigger value={InsuranceCategory.INSURANCE_INVESTMENTS}>Investments</TabsTrigger>
+                    <TabsList className="col-span-1 grid grid-cols-5">
+                        <TabsTrigger disabled={isLoadingInsurance} value={""}>Display All</TabsTrigger>
+                        <TabsTrigger disabled={isLoadingInsurance} value={InsuranceCategory.INSURANCE_GENERAL}>General</TabsTrigger>
+                        <TabsTrigger disabled={isLoadingInsurance} value={InsuranceCategory.INSURANCE_HEALTH}>Health</TabsTrigger>
+                        <TabsTrigger disabled={isLoadingInsurance} value={InsuranceCategory.INSURANCE_LIFE}>Life</TabsTrigger>
+                        <TabsTrigger disabled={isLoadingInsurance} value={InsuranceCategory.INSURANCE_INVESTMENTS}>Investments</TabsTrigger>
                     </TabsList>
                 </Tabs>
 

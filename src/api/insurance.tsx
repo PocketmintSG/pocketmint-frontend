@@ -10,7 +10,8 @@ export const ReadInsuranceAPI = async (insuranceId: string) => {
     return axios.get(API_URL + "/get_insurance/" + insuranceId, requestHeader)
 }
 
-export const ListInsuranceAPI = async (userId: string, insuranceCategory: InsuranceCategory) => {
+export const ListInsuranceAPI = async (userId: string, insuranceCategory: InsuranceCategory | "") => {
+    // insuranceCategory === "" means to display all insurances
     return axios.post(API_URL + "/list_insurance", {
         "user_id": userId,
         "insurance_category": insuranceCategory
