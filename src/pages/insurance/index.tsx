@@ -5,14 +5,13 @@ import { MaxSumInsuredCard } from "@/components/insurance/MaxSumInsuredCard";
 import { FetchInsuranceSummariesAPI, ListInsuranceAPI } from "@/api/insurance";
 import { getUser } from "@/utils/Store";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CoverageType, InsuranceModelMinified, InsuranceCategory } from "@/types/insurance";
+import { InsuranceModelMinified, InsuranceCategory } from "@/types/insurance";
 import DataTable from "react-data-table-component";
-import { FormInput } from "@/components/general/form/FormInput";
 import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
-import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ExpandedInsuranceRow } from "@/components/insurance/ExpandedInsuranceRow";
 import { FadeLoader } from "react-spinners";
+import { InsuranceDialog } from "@/components/insurance/InsuranceDialog";
 
 const insuranceData = {
     "status": "success",
@@ -207,10 +206,8 @@ export const Insurance = () => {
                     </TabsList>
                 </Tabs>
 
-                <ButtonFilled className="flex flex-row justify-center items-center w-[20%]">
-                    <AiOutlinePlus />
-                    Add Insurance
-                </ButtonFilled>
+                <InsuranceDialog buttonIcon={AiOutlinePlus} buttonLabel="Add Insurance" currentAction="CREATE_INSURANCE" />
+
             </div>
             {isLoadingInsurance
                 ? <div className="h-[40vh] w-full flex items-center justify-center"><FadeLoader /></div>
