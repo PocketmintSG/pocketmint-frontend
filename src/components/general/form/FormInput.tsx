@@ -22,7 +22,7 @@ export const FormInput = ({
   ...restProps
 }: FormInputProps) => {
   const classes = mergeClasses({
-    classes: ["flex flex-col h-[50px]", className],
+    classes: ["flex flex-col h-min-[50px]", className],
   });
   return (
     <div className={classes} {...restProps}>
