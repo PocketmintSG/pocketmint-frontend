@@ -106,23 +106,23 @@ const CreateInsuranceForm = () => {
                 <Form>
                     <div className="flex flex-col">
                         <span className="text-xl font-semibold">Policy Details</span>
-                        <div className="grid grid-rows-3 grid-cols-2 gap-x-10 gap-y-3 mt-2 mb-12">
-                            <FormInput label="Policy Number" name="policyDetailsPolicyNumber" type="string" placeholder="Enter a number" labelProps="font-normal text-md" />
-                            <FormInput label="Insurance Name" name="policyDetailsInsuranceName" type="text" placeholder="Enter a name" />
-                            <FormInput label="Cash Premiums" name="policyDetailsCashPremiums" type="number" placeholder="Enter a number" />
-                            <FormInput label="Insured Person" name="policyDetailsInsuredPerson" type="text" placeholder="Enter a name" />
-                            <FormInput label="Insurer" name="policyDetailsInsurer" type="text" placeholder="Enter a name" />
-                            <FormInput label="Beneficiary" name="policyDetailsBeneficiary" type="text" placeholder="Enter a name" />
-                            <FormInput label="Maturity Date" name="policyDetailsMaturityDate" type="date" className="cursor-pointer" />
+                        <div className="grid grid-rows-3 grid-cols-2 gap-x-10 gap-y-1 mt-2 mb-12">
+                            <FormInput label="Policy Number" name="policyDetailsPolicyNumber" type="string" placeholder="Enter a number" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Insurance Name" name="policyDetailsInsuranceName" type="text" placeholder="Enter a name" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Cash Premiums" name="policyDetailsCashPremiums" type="number" placeholder="Enter a number" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Insured Person" name="policyDetailsInsuredPerson" type="text" placeholder="Enter a name" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Insurer" name="policyDetailsInsurer" type="text" placeholder="Enter a name" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Beneficiary" name="policyDetailsBeneficiary" type="text" placeholder="Enter a name" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Maturity Date" name="policyDetailsMaturityDate" type="date" className="cursor-pointer" labelProps="font-normal text-md pb-1" />
                         </div>
                         <span className="text-xl font-semibold">Insurance Coverage</span>
-                        <div className="grid grid-rows-2 grid-cols-2 gap-x-10 gap-y-3 mt-2 mb-6">
-                            <FormInput label="Cash Premiums" name="insuranceCoverageCashPremiums" type="number" placeholder="Enter a number" />
-                            <FormInput label="Non-Cash Premiums" name="insuranceCoverageNonCashPremiums" type="number" placeholder="Enter a number" />
-                            <FormInput label="Insurance Category" name="insuranceCoverageInsuranceCategory" type="select" selectOptions={selectInsuranceCategoryOptions} placeholder="Choose an option" />
+                        <div className="grid grid-rows-2 grid-cols-2 gap-x-10 gap-y-1 mt-2 mb-6">
+                            <FormInput label="Cash Premiums" name="insuranceCoverageCashPremiums" type="number" placeholder="Enter a number" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Non-Cash Premiums" name="insuranceCoverageNonCashPremiums" type="number" placeholder="Enter a number" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Insurance Category" name="insuranceCoverageInsuranceCategory" labelProps="font-normal text-md pb-1" type="select" selectOptions={selectInsuranceCategoryOptions} placeholder="Choose an option" />
                             <span className="self-end">Total Premiums: ${(values.insuranceCoverageCashPremiums === "" && values.insuranceCoverageNonCashPremiums === "" ? 0 : values.insuranceCoverageCashPremiums + values.insuranceCoverageNonCashPremiums)}</span>
                         </div>
-                        <span className="text-lg">Coverage Details</span>
+                        <span className="text-lg mb-2">Coverage Details</span>
                         <FieldArray name="insuranceCoverageCoverageDetails">
                             {({ insert, remove, push }) => (
                                 <div className="grid grid-cols-[6fr_6fr_6fr_1fr] gap-x-6 gap-y-3">
@@ -147,14 +147,14 @@ const CreateInsuranceForm = () => {
                                 </div>
                             )}
                         </FieldArray>
-                        <span className="text-lg font-semibold">Agent Details</span>
-                        <div className="grid grid-rows-2 grid-cols-2 gap-x-10 gap-y-3 mt-2 mb-6">
-                            <FormInput label="Name" name="agentDetailsName" type="text" placeholder="Enter a name" />
-                            <FormInput label="Contact Number" name="agentDetailsContactNumber" type="number" placeholder="Enter a number" />
-                            <FormInput label="Email" name="agentDetailsEmail" type="email" placeholder="Enter an email" />
-                            <FormInput label="Agency" name="agentDetailsAgency" type="text" placeholder="Enter an agency name" />
+                        <span className="text-xl font-semibold">Agent Details</span>
+                        <div className="grid grid-rows-2 grid-cols-2 gap-x-10 gap-y-1 mt-2 mb-6">
+                            <FormInput label="Name" name="agentDetailsName" type="text" placeholder="Enter a name" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Contact Number" name="agentDetailsContactNumber" type="number" placeholder="Enter a number" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Email" name="agentDetailsEmail" type="email" placeholder="Enter an email" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Agency" name="agentDetailsAgency" type="text" placeholder="Enter an agency name" labelProps="font-normal text-md pb-1" />
                         </div>
-                        <label className="text-lg font-medium">
+                        <label className="text-md font-normal pb-1">
                             {"Description"}
                         </label>
                         <Field
