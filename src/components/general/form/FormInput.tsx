@@ -9,9 +9,9 @@ export interface SelectOption {
 }
 
 interface FormInputProps {
-  label: string;
   name: string;
   type: string;
+  label?: string;
   selectOptions?: SelectOption[];
   labelProps?: string;
   placeholder?: string;
@@ -19,7 +19,7 @@ interface FormInputProps {
 }
 
 export const FormInput = ({
-  label,
+  label = "",
   name,
   type,
   labelProps = "",
@@ -33,15 +33,17 @@ export const FormInput = ({
   });
   return (
     <div className={classes} {...restProps}>
-      <label htmlFor={label} className={cn("text-lg font-medium", labelProps)}>
-        {label}
-      </label>
+      {label &&
+        <label htmlFor={label} className={cn("text-lg font-medium", labelProps)}>
+          {label}
+        </label>
+      }
       {type !== "select" &&
         <Field
           type={type}
           name={name}
           placeholder={placeholder}
-          className="border-b-[1px] border-black bg-grey-200 p-2 rounded"
+          className={`border-b-[1px] border-black bg-grey-200 p-2 rounded`}
         />
       }
       {type === "select" &&
@@ -49,8 +51,11 @@ export const FormInput = ({
           as="select"
           name={name}
           placeholder={placeholder}
-          className="border-b-[1px] border-black bg-grey-200 p-2 rounded"
+          className="border-b-[1px] border-black bg-grey-200 p-2 rounded invalid:text-grey-400"
         >
+          <option key={-1} value="" selected disabled>
+            <p>Select an option...</p>
+          </option>
           {selectOptions.map((opt, idx) => <option key={idx} value={opt["optionValue"]}>{opt["optionLabel"]}</option>)}
         </Field>
       }
