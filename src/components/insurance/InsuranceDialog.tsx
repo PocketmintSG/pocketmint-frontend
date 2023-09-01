@@ -102,21 +102,21 @@ const insuranceFormSchema = Yup.object().shape({
     }),
 });
 
-const blankInsuranceCoverageDetail = { insuranceType: "", coverageType: "", coverageAmount: "" }
+const blankInsuranceCoverageDetail: InsuranceCoverageDetail = { insuranceType: GeneralInsurance.CAR, coverageType: CoverageType.CRITICAL_ILLNESS, coverageAmount: 0 }
 
 const CreateInsuranceForm = ({ setIsOpen }) => {
     const user = getUser()
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const initialValues = {
+    const initialValues: InsuranceFormValues = {
         policyDetailsPolicyNumber: "",
         policyDetailsInsuranceName: "",
-        policyDetailsCashPremiums: "",
+        policyDetailsCashPremiums: 0,
         policyDetailsInsuredPerson: "",
         policyDetailsInsurer: "",
         policyDetailsBeneficiary: "",
         policyDetailsMaturityDate: "",
-        insuranceCoverageCashPremiums: "",
-        insuranceCoverageNonCashPremiums: "",
+        insuranceCoverageCashPremiums: 0,
+        insuranceCoverageNonCashPremiums: 0,
         insuranceCoverageInsuranceCategory: "",
         insuranceCoverageCoverageDetails: [{ ...blankInsuranceCoverageDetail }],
         agentDetailsName: "",
