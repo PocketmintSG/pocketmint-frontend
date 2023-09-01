@@ -64,7 +64,7 @@ export interface InsuranceModelPolicyDetails {
 
 export interface InsuranceModelInsuranceCoverage {
     cash_premiums: number;
-    insurance_type: string;
+    insurance_category: string;
     non_cash_premiums: number;
     total_premiums: number;
     coverage_details: CoverageDetail[];
