@@ -3,6 +3,7 @@ import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
 import { FormInput, SelectOption } from "@/components/general/form/FormInput";
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { InsuranceCategory, CoverageDetail, LifeInsurance, HealthInsurance, InvestmentInsurance, GeneralInsurance, CoverageType, InsuranceModel } from "@/types/insurance";
 import { triggerGenericNotification } from "@/utils/Notifications";
 import { getUser } from "@/utils/Store";
@@ -18,6 +19,7 @@ interface InsuranceDialogProps {
     buttonLabel: string
     buttonIcon: IconType
     currentAction: "CREATE_INSURANCE" | "READ_INSURANCE" | "EDIT_INSURANCE"
+    className?: string
 }
 
 interface InsuranceFormValues {
@@ -254,14 +256,21 @@ const CreateInsuranceForm = ({ setIsOpen }) => {
     </DialogContent>
 }
 
-export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, buttonProps }: InsuranceDialogProps) => {
+export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAction, className = "" }: InsuranceDialogProps) => {
     const [isOpen, setIsOpen] = useState(false)
-    return <Dialog open={isOpen}>
-        <DialogTrigger className="px-4 py-3 hover:bg-primary-400 hover:text-white transition duration-[300ms] ease-in-out leading-tight rounded-[4px] bg-primary-500 text-white disabled:opacity-40 flex flex-row justify-center items-center w-[20%]" onClick={() => setIsOpen(true)}>
+    return <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger className={cn("px-4 py-3 hover:bg-primary-400 hover:text-white transition duration-[300ms] ease-in-out leading-tight rounded-[4px] bg-primary-500 text-white disabled:opacity-40 flex flex-row justify-center items-center w-[20%]", className)} onClick={() => setIsOpen(true)}>
             <ButtonIcon />
             <span>{buttonLabel}</span>
         </DialogTrigger>
 
-        <CreateInsuranceForm setIsOpen={setIsOpen} />
+        <CreateInsuranceForm />
+
+        {/* {currentAction === "CREATE_INSURANCE" ? */}
+        {/* <CreateInsuranceForm setIsOpen={setIsOpen} /> : */}
+        {/* currentAction === "READ_INSURANCE" */}
+        {/* ? <ReadInsuranceForm setIsOpen={setIsOpen} /> */}
+        {/* : <EditInsuranceForm setIsOpen={setIsOpen} /> */}
+        {/* } */}
     </Dialog >
 }
