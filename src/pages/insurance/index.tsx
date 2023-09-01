@@ -11,7 +11,7 @@ import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ExpandedInsuranceRow } from "@/components/insurance/ExpandedInsuranceRow";
 import { FadeLoader } from "react-spinners";
-import { InsuranceDialog } from "@/components/insurance/InsuranceDialog";
+import { InsuranceDialog, InsuranceDialogActions } from "@/components/insurance/InsuranceDialog";
 
 const insuranceTableColumns = [
     {
@@ -143,7 +143,7 @@ export const Insurance = () => {
                     </TabsList>
                 </Tabs>
 
-                <InsuranceDialog buttonIcon={AiOutlinePlus} buttonLabel="Add Insurance" currentAction="CREATE_INSURANCE" />
+                <InsuranceDialog buttonIcon={AiOutlinePlus} buttonLabel="Add Insurance" currentAction={InsuranceDialogActions.CREATE_INSURANCE} />
 
             </div>
             {isLoadingInsurance
