@@ -1,13 +1,17 @@
+import { CreateInsuranceAPI } from "@/api/insurance";
 import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
 import { FormInput, SelectOption } from "@/components/general/form/FormInput";
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
-import { InsuranceCategory, CoverageDetail, LifeInsurance, HealthInsurance, InvestmentInsurance, GeneralInsurance, CoverageType } from "@/types/insurance";
-import { Field, FieldArray, Form, Formik } from "formik";
-import React from "react";
+import { InsuranceCategory, CoverageDetail, LifeInsurance, HealthInsurance, InvestmentInsurance, GeneralInsurance, CoverageType, InsuranceModel } from "@/types/insurance";
+import { triggerGenericNotification } from "@/utils/Notifications";
+import { getUser } from "@/utils/Store";
+import { Field, FieldArray, Form, Formik, FormikHelpers } from "formik";
+import React, { useState } from "react";
 import { IconType } from "react-icons";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
+import { FadeLoader } from "react-spinners";
 import * as Yup from "yup";
 
 interface InsuranceDialogProps {
@@ -15,6 +19,35 @@ interface InsuranceDialogProps {
     buttonIcon: IconType
     currentAction: "CREATE_INSURANCE" | "READ_INSURANCE" | "EDIT_INSURANCE"
 }
+
+interface InsuranceFormValues {
+    policyDetailsPolicyNumber: string;
+    policyDetailsInsuranceName: string;
+    policyDetailsCashPremiums: number;
+    policyDetailsInsuredPerson: string;
+    policyDetailsInsurer: string;
+    policyDetailsBeneficiary: string;
+    policyDetailsMaturityDate: string;
+    insuranceCoverageCashPremiums: number;
+    insuranceCoverageNonCashPremiums: number;
+    insuranceCoverageInsuranceCategory: string;
+    insuranceCoverageCoverageDetails: InsuranceCoverageDetail[];
+    agentDetailsName: string;
+    agentDetailsContactNumber: string;
+    agentDetailsEmail: string;
+    agentDetailsAgency: string;
+    description: {
+        descText: string;
+        files: string[]; // You can update the type for files if needed
+    };
+}
+
+interface InsuranceCoverageDetail {
+    insuranceType: GeneralInsurance | LifeInsurance | InvestmentInsurance | HealthInsurance;
+    coverageType: CoverageType;
+    coverageAmount: number;
+}
+
 
 const selectInsuranceCategoryOptions: SelectOption[] = Object.values(InsuranceCategory).sort().map((ic) => {
     return {
@@ -71,8 +104,9 @@ const insuranceFormSchema = Yup.object().shape({
 
 const blankInsuranceCoverageDetail = { insuranceType: "", coverageType: "", coverageAmount: "" }
 
-const CreateInsuranceForm = () => {
-    // Missing CoverageDetailsInsuranceType, CoverageDetailsCoverageType, CoverageDetailsCoverageAmount, Description
+const CreateInsuranceForm = ({ setIsOpen }) => {
+    const user = getUser()
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const initialValues = {
         policyDetailsPolicyNumber: "",
         policyDetailsInsuranceName: "",
@@ -95,8 +129,52 @@ const CreateInsuranceForm = () => {
         }
     }
 
-    const handleSubmit = async (values, actions) => {
+    const handleSubmit = async (values: InsuranceFormValues, actions: FormikHelpers<InsuranceFormValues>) => {
         console.log(values)
+        setIsSubmitting(true)
+        const formData: InsuranceModel = {
+            uid: user?.uid!,
+            policy_details: {
+                policy_number: values.policyDetailsPolicyNumber,
+                cash_premiums: values.policyDetailsCashPremiums,
+                insurance_name: values.policyDetailsInsuranceName,
+                insured_person: values.policyDetailsInsuredPerson,
+                insurer: values.policyDetailsInsurer,
+                beneficiary: values.policyDetailsBeneficiary,
+                maturity_date: new Date(values.policyDetailsMaturityDate).toISOString()
+            },
+            insurance_coverage: {
+                cash_premiums: values.insuranceCoverageCashPremiums,
+                insurance_category: values.insuranceCoverageInsuranceCategory,
+                non_cash_premiums: values.insuranceCoverageNonCashPremiums,
+                total_premiums: values.insuranceCoverageCashPremiums + values.insuranceCoverageNonCashPremiums,
+                coverage_details: values.insuranceCoverageCoverageDetails.map(d => ({
+                    insurance_type: d.insuranceType,
+                    coverage_type: d.coverageType,
+                    coverage_amount: d.coverageAmount
+                }))
+            },
+            agent_details: {
+                name: values.agentDetailsName,
+                contact_number: values.agentDetailsContactNumber,
+                email: values.agentDetailsEmail,
+                agency: values.agentDetailsAgency
+            },
+            description: {
+                desc_text: values.description.descText,
+                files: values.description.files
+            }
+        }
+        CreateInsuranceAPI(formData).then(res => {
+            if (res.status === 200) {
+                triggerGenericNotification("Insurance created succesfully!", "success")
+            } else {
+                triggerGenericNotification("Error creating insurance", "danger")
+            }
+        }).finally(() => {
+            setIsSubmitting(false);
+            setIsOpen(false);
+        })
     }
 
     return <DialogContent className="min-w-[80vw] p-[100px] overflow-y-scroll max-h-screen">
@@ -150,7 +228,7 @@ const CreateInsuranceForm = () => {
                         <span className="text-xl font-semibold">Agent Details</span>
                         <div className="grid grid-rows-2 grid-cols-2 gap-x-10 gap-y-1 mt-2 mb-6">
                             <FormInput label="Name" name="agentDetailsName" type="text" placeholder="Enter a name" labelProps="font-normal text-md pb-1" />
-                            <FormInput label="Contact Number" name="agentDetailsContactNumber" type="number" placeholder="Enter a number" labelProps="font-normal text-md pb-1" />
+                            <FormInput label="Contact Number" name="agentDetailsContactNumber" type="tel" placeholder="Enter a number" labelProps="font-normal text-md pb-1" />
                             <FormInput label="Email" name="agentDetailsEmail" type="email" placeholder="Enter an email" labelProps="font-normal text-md pb-1" />
                             <FormInput label="Agency" name="agentDetailsAgency" type="text" placeholder="Enter an agency name" labelProps="font-normal text-md pb-1" />
                         </div>
@@ -164,7 +242,11 @@ const CreateInsuranceForm = () => {
                             className={`border-b-[1px] border-black bg-grey-200 p-2 rounded w-full`}
                             rows={6}
                         />
-                        <ButtonFilled type="submit" className="mt-12 w-[30%] justify-self-end self-end">Submit</ButtonFilled>
+                        <ButtonFilled type="submit" disabled={isSubmitting} className="mt-12 w-[30%] justify-self-end self-end flex justify-center">
+                            {isSubmitting ?
+                                <FadeLoader radius={"1"} color="#ffffff" />
+                                : "Submit"}
+                        </ButtonFilled>
                     </div>
                 </Form>
             )}
@@ -173,12 +255,13 @@ const CreateInsuranceForm = () => {
 }
 
 export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, buttonProps }: InsuranceDialogProps) => {
-    return <Dialog>
-        <DialogTrigger className="px-4 py-3 hover:bg-primary-400 hover:text-white transition duration-[300ms] ease-in-out leading-tight rounded-[4px] bg-primary-500 text-white disabled:opacity-40 flex flex-row justify-center items-center w-[20%]">
+    const [isOpen, setIsOpen] = useState(false)
+    return <Dialog open={isOpen}>
+        <DialogTrigger className="px-4 py-3 hover:bg-primary-400 hover:text-white transition duration-[300ms] ease-in-out leading-tight rounded-[4px] bg-primary-500 text-white disabled:opacity-40 flex flex-row justify-center items-center w-[20%]" onClick={() => setIsOpen(true)}>
             <ButtonIcon />
             <span>{buttonLabel}</span>
         </DialogTrigger>
 
-        <CreateInsuranceForm />
+        <CreateInsuranceForm setIsOpen={setIsOpen} />
     </Dialog >
 }
