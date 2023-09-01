@@ -1,3 +1,4 @@
+import { ReadInsuranceAPI } from "@/api/insurance";
 import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { InsuranceItemWithIcon } from "@/components/insurance/InsuranceItemWithIcon";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BsClipboard, BsFillTelephoneFill } from "react-icons/bs";
 import { FaAddressBook } from "react-icons/fa"
+import { FadeLoader } from "react-spinners";
 
 const sampleData = {
     "status": "success",
@@ -51,18 +53,23 @@ const sampleData = {
     }
 }
 
-export const ExpandedInsuranceRow = ({ _id: insuranceId }: InsuranceModelMinified) => {
+export const ExpandedInsuranceRow = (data) => {
     const [insuranceDetails, setInsuranceDetails] = useState<InsuranceModel>()
 
     useEffect(() => {
-        // ReadInsuranceAPI(insuranceId).then(res => {
-        // console.log(res.data.data)
-        // setInsuranceDetails(res.data.data)
-        // })
-        setInsuranceDetails(sampleData.data)
+        ReadInsuranceAPI(data.data._id).then(res => {
+            setInsuranceDetails(res.data.data)
+        })
+        // setInsuranceDetails(sampleData.data)
     }, [])
 
-    const maturityDate = new Date(insuranceDetails?.policy_details.maturity_date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })
+    if (insuranceDetails === undefined) {
+        return <div className="w-full p-5 bg-grey-200 flex flex-col justify-center items-center">
+            <FadeLoader />
+        </div>
+    }
+
+    const maturityDate = new Date(insuranceDetails.policy_details.maturity_date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })
 
     return <div className="w-full p-5 bg-grey-200 flex flex-col">
         <div className='w-full grid grid-cols-[80%,20%]'>
