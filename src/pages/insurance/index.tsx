@@ -13,69 +13,6 @@ import { ExpandedInsuranceRow } from "@/components/insurance/ExpandedInsuranceRo
 import { FadeLoader } from "react-spinners";
 import { InsuranceDialog } from "@/components/insurance/InsuranceDialog";
 
-const insuranceData = {
-    "status": "success",
-    "message": "Insurance listed!",
-    "data": [
-        {
-            "_id": "64e8b94e60b78fc8fd967ac7",
-            "policy_name": "Life Insurance",
-            "policy_insurer": "XYZ Insurance",
-            "policy_insurance_types": [
-                "Term Life"
-            ],
-            "agent_name": "Agent Smith",
-            "agent_contact_number": "123-456-7890",
-            "beneficiary": "Jane Doe"
-        },
-        {
-            "_id": "64e8b95160b78fc8fd967ac8",
-            "policy_name": "Health Insurance",
-            "policy_insurer": "ABC Health",
-            "policy_insurance_types": [
-                "Retirement"
-            ],
-            "agent_name": "Agent Johnson",
-            "agent_contact_number": "987-654-3210",
-            "beneficiary": "John Smith"
-        },
-        {
-            "_id": "64e8b95160b78fc8fd967ac9",
-            "policy_name": "Auto Insurance",
-            "policy_insurer": "123 Auto",
-            "policy_insurance_types": [
-                "Critical Illnes"
-            ],
-            "agent_name": "Agent Brown",
-            "agent_contact_number": "555-123-4567",
-            "beneficiary": "Bob Johnson"
-        },
-        {
-            "_id": "64e8b95160b78fc8fd967aca",
-            "policy_name": "Home Insurance",
-            "policy_insurer": "Secure Homes",
-            "policy_insurance_types": [
-                "Travel"
-            ],
-            "agent_name": "Agent Miller",
-            "agent_contact_number": "999-888-7777",
-            "beneficiary": "Emily Williams"
-        },
-        {
-            "_id": "64e8b95260b78fc8fd967acb",
-            "policy_name": "Travel Insurance",
-            "policy_insurer": "Wanderlust Insurers",
-            "policy_insurance_types": [
-                "Critical Illness",
-                "Helper"
-            ],
-            "agent_name": "Agent Anderson",
-            "agent_contact_number": "111-222-3333",
-            "beneficiary": "Michael Lee"
-        }
-    ]
-}
-
 const insuranceTableColumns = [
     {
         name: 'Insurance Name',
