@@ -1,10 +1,11 @@
 import { ReadInsuranceAPI } from "@/api/insurance";
 import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
+import { InsuranceDialog } from "@/components/insurance/InsuranceDialog";
 import { InsuranceItemWithIcon } from "@/components/insurance/InsuranceItemWithIcon";
 import { Badge } from "@/components/ui/badge";
 import { InsuranceModel, InsuranceModelMinified } from "@/types/insurance";
 import React, { useEffect, useState } from "react";
-import { AiOutlineClockCircle } from "react-icons/ai";
+import { AiOutlineClockCircle, AiOutlinePlus } from "react-icons/ai";
 import { BsClipboard, BsFillTelephoneFill } from "react-icons/bs";
 import { FaAddressBook } from "react-icons/fa"
 import { FadeLoader } from "react-spinners";
@@ -125,6 +126,6 @@ export const ExpandedInsuranceRow = (data) => {
             </div>
         </div>
         <div className="bg-grey-500 rounded pt-8 pb-10 pl-5 pr-5 mt-5">{insuranceDetails?.description.desc_text}</div>
-        <ButtonFilled className="w-[20%] mt-3 place-self-end">View/Edit Insurance</ButtonFilled>
+        <InsuranceDialog buttonIcon={AiOutlinePlus} buttonLabel="View/Edit Insurance" currentAction="READ_INSURANCE" className="w-[20% mt-3 place-self-end" />
     </div>
 }
