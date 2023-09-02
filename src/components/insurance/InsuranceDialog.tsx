@@ -25,7 +25,7 @@ export enum InsuranceDialogActions {
 
 interface InsuranceDialogProps {
     buttonLabel: string
-    buttonIcon: IconType
+    buttonIcon?: IconType
     currentAction: InsuranceDialogActions
     className?: string
 }
@@ -114,7 +114,6 @@ const insuranceFormSchema = Yup.object().shape({
 
 // Set initial values to be "" to allow default values "Select a value..." to display in the dropdown
 const blankInsuranceCoverageDetail: InsuranceCoverageDetail = { insuranceType: "", coverageType: "", coverageAmount: "" }
-
 
 
 export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAction, className = "", ...restProps }: InsuranceDialogProps) => {
@@ -271,33 +270,7 @@ export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAc
         </DialogContent>
     }
 
-    const ReadInsuranceForm = (setIsOpen: any, insuranceData: InsuranceModel) => {
-        const insuranceValues: InsuranceFormValues = {
-            policyDetailsPolicyNumber: insuranceData.policy_details.policy_number,
-            policyDetailsInsuranceName: insuranceData.policy_details.insurance_name,
-            policyDetailsCashPremiums: insuranceData.policy_details.cash_premiums,
-            policyDetailsInsuredPerson: insuranceData.policy_details.insured_person,
-            policyDetailsInsurer: insuranceData.policy_details.insurer,
-            policyDetailsBeneficiary: insuranceData.policy_details.beneficiary,
-            policyDetailsMaturityDate: insuranceData.policy_details.maturity_date,
-            insuranceCoverageCashPremiums: insuranceData.insurance_coverage.cash_premiums,
-            insuranceCoverageNonCashPremiums: insuranceData.insurance_coverage.non_cash_premiums,
-            insuranceCoverageInsuranceCategory: insuranceData.insurance_coverage.insurance_category,
-            insuranceCoverageCoverageDetails: insuranceData.insurance_coverage.coverage_details.map(c => ({
-                insuranceType: c.insurance_type,
-                coverageType: c.coverage_type,
-                coverageAmount: c.coverage_amount
-            })),
-            agentDetailsName: insuranceData.agent_details.name,
-            agentDetailsContactNumber: insuranceData.agent_details.contact_number,
-            agentDetailsEmail: insuranceData.agent_details.email,
-            agentDetailsAgency: insuranceData.agent_details.agency,
-            description: {
-                "descText": insuranceData.description.desc_text,
-                "files": insuranceData.description.files
-            }
-        }
-
+    const ReadInsuranceForm = ({ setIsOpen, insuranceData }) => {
         return <DialogContent className="min-w-[80vw] p-[100px] overflow-y-scroll max-h-screen">
             <DialogHeader className="text-1.5xl font-semibold">Create New Insurance</DialogHeader>
             <div className="flex flex-col">
@@ -330,7 +303,6 @@ export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAc
                         <p className="text-lg">{c.coverage_amount}</p>
                     </>))}
                 </div>
-                    )}
                 <span className="text-xl font-semibold">Agent Details</span>
                 <div className="grid grid-rows-2 grid-cols-2 gap-x-10 gap-y-1 mt-2 mb-6">
                     <Label labelTitle="Name" labelTitleProps="font-normal text-md pb-1" labelContent={insuranceData.agent_details.name} />
@@ -339,14 +311,15 @@ export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAc
                     <Label labelTitle="Agency" labelTitleProps="font-normal text-md pb-1" labelContent={insuranceData.agent_details.agency} />
                 </div>
                 <Label labelTitle="Description" labelTitleProps="text-md font-normal pb-1" labelContent={insuranceData.description.desc_text} labelContentProps="pb-[2em]" />
-                <ButtonFilled className="mt-12 w-[30%] justify-self-end self-end flex justify-center" onClick={setDialogAction(InsuranceDialogActions.EDIT_INSURANCE)}>
-                    "Edit Insurance"
+                <ButtonFilled className="mt-12 w-[30%] justify-self-end self-end flex justify-center" onClick={() => setDialogAction(InsuranceDialogActions.EDIT_INSURANCE)}>
+                    Edit Insurance
                 </ButtonFilled>
             </div>
         </DialogContent>
     }
 
-    const UpdateInsuranceForm = (setIsOpen: any, insuranceData: InsuranceModel) => {
+    const UpdateInsuranceForm = ({ setIsOpen, insuranceData }) => {
+        console.log("Update Insurance")
         const user = getUser()
         const [isSubmitting, setIsSubmitting] = useState(false)
         const initialValues: InsuranceFormValues = {
@@ -505,15 +478,18 @@ export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAc
         </DialogContent>
     }
 
+    const insuranceData = restProps["insuranceData"]
+
     return <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger className={cn("px-4 py-3 hover:bg-primary-400 hover:text-white transition duration-[300ms] ease-in-out leading-tight rounded-[4px] bg-primary-500 text-white disabled:opacity-40 flex flex-row justify-center items-center w-[20%]", className)} onClick={() => setIsOpen(true)}>
-            <ButtonIcon />
+            {ButtonIcon && <ButtonIcon />}
             <span>{buttonLabel}</span>
         </DialogTrigger>
 
         {/* <CreateInsuranceForm setIsOpen={setIsOpen} /> */}
         {/* <ReadInsuranceForm setIsOpen={setIsOpen} {...restProps} /> */}
 
-        {currentAction === InsuranceDialogActions.CREATE_INSURANCE ? <CreateInsuranceForm setIsOpen={setIsOpen} /> : currentAction === InsuranceDialogActions.READ_INSURANCE ? <ReadInsuranceForm setIsOpen={setIsOpen} insuranceData={restProps.insuranceData} /> : <UpdateInsuranceForm setIsOpen={setIsOpen} insuranceData={restProps.insuranceData} />}
+        {currentAction === InsuranceDialogActions.CREATE_INSURANCE ? <CreateInsuranceForm setIsOpen={setIsOpen} /> : currentAction === InsuranceDialogActions.READ_INSURANCE ? <ReadInsuranceForm setIsOpen={setIsOpen} insuranceData={insuranceData} /> : <UpdateInsuranceForm setIsOpen={setIsOpen} insuranceData={insuranceData} />}
+
     </Dialog >
 }
