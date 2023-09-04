@@ -10,50 +10,6 @@ import { BsClipboard, BsFillTelephoneFill } from "react-icons/bs";
 import { FaAddressBook } from "react-icons/fa"
 import { FadeLoader } from "react-spinners";
 
-const sampleData = {
-    "status": "success",
-    "message": "Insurance found!",
-    "data": {
-        "_id": "64e8b95160b78fc8fd967ac8",
-        "uid": "65zJmgDad0b0QOt2I7EKmML9T1u2",
-        "policy_details": {
-            "policy_number": "P002",
-            "cash_premiums": 800.0,
-            "insurance_name": "Health Insurance",
-            "insured_person": "Jane Smith",
-            "insurer": "ABC Health",
-            "beneficiary": "John Smith",
-            "maturity_date": "2032-06-15T00:00:00"
-        },
-        "insurance_coverage": {
-            "cash_premiums": 800.0,
-            "insurance_type": "Health Insurance",
-            "non_cash_premiums": 0.0,
-            "total_premiums": 800.0,
-            "coverage_details": [
-                {
-                    "insurance_type": "Retirement",
-                    "coverage_type": "Personal Accident",
-                    "coverage_amount": 60500.0
-                }
-            ]
-        },
-        "agent_details": {
-            "name": "Agent Johnson",
-            "contact_number": "987-654-3210",
-            "email": "agent2@example.com",
-            "agency": "XYZ Health Agency"
-        },
-        "description": {
-            "desc_text": "This is a sample health insurance policy.",
-            "files": [
-                "https://s3.amazonaws.com/bucket/file3.pdf",
-                "https://s3.amazonaws.com/bucket/file4.pdf"
-            ]
-        }
-    }
-}
-
 export const ExpandedInsuranceRow = (data) => {
     const [insuranceDetails, setInsuranceDetails] = useState<InsuranceModel>()
 
@@ -61,7 +17,6 @@ export const ExpandedInsuranceRow = (data) => {
         ReadInsuranceAPI(data.data._id).then(res => {
             setInsuranceDetails(res.data.data)
         })
-        // setInsuranceDetails(sampleData.data)
     }, [])
 
     if (insuranceDetails === undefined) {
