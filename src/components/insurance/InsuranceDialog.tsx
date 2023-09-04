@@ -413,7 +413,7 @@ export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAc
             }
 
             return <DialogContent className="min-w-[80vw] p-[100px] overflow-y-scroll max-h-screen">
-                <DialogHeader className="text-1.5xl font-semibold">Create New Insurance</DialogHeader>
+                <DialogHeader className="text-1.5xl font-semibold">Edit Insurance</DialogHeader>
                 <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={insuranceFormSchema}>
                     {({ values, handleSubmit }) => (
                         <Form>
@@ -484,7 +484,7 @@ export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAc
                                     <ButtonFilled type="submit" disabled={isSubmitting} className="w-[30%] flex justify-center">
                                         {isSubmitting ?
                                             <FadeLoader radius={"1"} color="#ffffff" />
-                                            : "Submit"}
+                                            : "Update"}
                                     </ButtonFilled>
                                 </div>
                             </div>
