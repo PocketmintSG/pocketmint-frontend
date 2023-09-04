@@ -21,7 +21,7 @@ export const UpdateInsuranceAPI = async (userId: string, insuranceId: string, in
     return axios.post(API_URL + "/update_insurance", {
         "user_id": userId,
         "insurance_id": insuranceId,
-        "insurance_data": insuranceData
+        "updated_details": insuranceData
     }, requestHeader)
 }
 
