@@ -1,18 +1,16 @@
 import { ReadInsuranceAPI } from "@/api/insurance";
-import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { InsuranceDialog, InsuranceDialogActions } from "@/components/insurance/InsuranceDialog";
 import { InsuranceItemWithIcon } from "@/components/insurance/InsuranceItemWithIcon";
 import { Badge } from "@/components/ui/badge";
-import { InsuranceModel, InsuranceModelMinified } from "@/types/insurance";
+import { InsuranceModel } from "@/types/insurance";
 import React, { useEffect, useState } from "react";
-import { AiOutlineClockCircle, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineClockCircle } from "react-icons/ai";
 import { BsClipboard, BsFillTelephoneFill } from "react-icons/bs";
 import { FaAddressBook } from "react-icons/fa"
 import { FadeLoader } from "react-spinners";
 
 export const ExpandedInsuranceRow = (data) => {
     const [insuranceDetails, setInsuranceDetails] = useState<InsuranceModel>()
-
     useEffect(() => {
         ReadInsuranceAPI(data.data._id).then(res => {
             setInsuranceDetails(res.data.data)
@@ -27,7 +25,7 @@ export const ExpandedInsuranceRow = (data) => {
 
     const maturityDate = new Date(insuranceDetails.policy_details.maturity_date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })
 
-    return <div className="w-full p-5 bg-grey-200 flex flex-col">
+    return <div className="w-full p-5 bg-grey-200 flex flex-col" key={data.data._id}>
         <div className='w-full grid grid-cols-[80%,20%]'>
             <div className="flex flex-col w-full">
                 <p className="text-lg font-semibold">
@@ -81,6 +79,6 @@ export const ExpandedInsuranceRow = (data) => {
             </div>
         </div>
         <div className="bg-grey-500 rounded pt-8 pb-10 pl-5 pr-5 mt-5">{insuranceDetails?.description.desc_text}</div>
-        <InsuranceDialog buttonLabel="View/Edit Insurance" currentAction={InsuranceDialogActions.READ_INSURANCE} className="w-[20% mt-3 place-self-end" insuranceData={insuranceDetails} insuranceId={data.data._id} />
+        <InsuranceDialog buttonLabel="View/Edit Insurance" currentAction={InsuranceDialogActions.READ_INSURANCE} className="w-[20% mt-3 place-self-end" insuranceData={insuranceDetails} insuranceId={data.data._id} setInsuranceSummary={data["setInsuranceSummary"]} setInsuranceList={data["setInsuranceList"]} setIsLoadingInsurance={data["setIsLoadingInsurance"]} setIsLoadingSummary={data["setIsLoadingSummary"]} insuranceCategory={data["insuranceCategory"]} />
     </div>
 }

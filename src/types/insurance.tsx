@@ -2,7 +2,7 @@ export enum InsuranceCategory {
     INSURANCE_GENERAL = "General",
     INSURANCE_HEALTH = "Health",
     INSURANCE_LIFE = "Life",
-    INSURANCE_INVESTMENTS = "Investments"
+    INSURANCE_INVESTMENT = "Investment"
 }
 
 export enum LifeInsurance {

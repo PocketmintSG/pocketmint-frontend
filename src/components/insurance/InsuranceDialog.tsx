@@ -1,4 +1,4 @@
-import { CreateInsuranceAPI, ReadInsuranceAPI, UpdateInsuranceAPI } from "@/api/insurance";
+import { CreateInsuranceAPI, FetchInsuranceSummariesAPI, ListInsuranceAPI, ReadInsuranceAPI, UpdateInsuranceAPI } from "@/api/insurance";
 import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
 import { FormInput, SelectOption } from "@/components/general/form/FormInput";
@@ -116,11 +116,18 @@ const insuranceFormSchema = Yup.object().shape({
 const blankInsuranceCoverageDetail: InsuranceCoverageDetail = { insuranceType: "", coverageType: "", coverageAmount: "" }
 
 
-export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAction, className = "", ...restProps }: InsuranceDialogProps) => {
+export const InsuranceDialog = (p: InsuranceDialogProps) => {
+    console.log(p)
+    const { buttonLabel, buttonIcon: ButtonIcon, currentAction, className = "", ...restProps } = p
     const user = getUser()
     const [isOpen, setIsOpen] = useState<Boolean>(false)
     const insuranceData = restProps["insuranceData"]
     const insuranceId = restProps["insuranceId"]
+    const setInsuranceSummary = restProps["setInsuranceSummary"]
+    const setIsLoadingSummary = restProps["setIsLoadingSummary"] // ?? why cannot find
+    const setInsuranceList = restProps["setInsuranceList"]
+    const setIsLoadingInsurance = restProps["setIsLoadingInsurance"]
+    const insuranceCategory = restProps["insuranceCategory"]
 
     const InsuranceForm = ({ setIsOpen, insuranceData, currentAction }) => {
         const [dialogAction, setDialogAction] = useState(currentAction)
@@ -198,15 +205,27 @@ export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAc
                         files: values.description.files
                     }
                 }
+
                 CreateInsuranceAPI(formData).then(res => {
                     if (res.status === 200) {
                         triggerGenericNotification("Insurance created succesfully!", "success")
                     } else {
                         triggerGenericNotification("Error creating insurance", "danger")
                     }
-                }).finally(() => {
+                }).then(async () => {
+                    setIsLoadingSummary(true)
+                    setIsLoadingInsurance(true)
+
+                    const fetchInsuranceSummaryData = await FetchInsuranceSummariesAPI(user?.uid!)
+                    const fetchInsuranceListData = await ListInsuranceAPI(user?.uid!, insuranceCategory)
+                    setInsuranceSummary(fetchInsuranceSummaryData.data.data)
+                    setInsuranceList(fetchInsuranceListData.data.data)
+
+                    setIsLoadingSummary(false)
+                    setIsLoadingInsurance(false)
                     setIsSubmitting(false);
-                    setIsOpen(false);
+                }).finally(() => {
+                    setIsOpen(false)
                 })
             }
 
@@ -288,7 +307,6 @@ export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAc
         }
 
         const ReadInsuranceForm = ({ insuranceData }: ReadInsuranceFormProps) => {
-            console.log(insuranceData)
             return <DialogContent className="min-w-[80vw] p-[100px] overflow-y-scroll max-h-screen">
                 <DialogHeader className="text-1.5xl font-semibold">{insuranceData.policy_details.insurance_name}</DialogHeader>
                 <div className="flex flex-col">
@@ -329,9 +347,19 @@ export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAc
                         <Label labelTitle="Agency" labelTitleProps="font-normal text-md pb-1" labelContent={insuranceData.agent_details.agency} />
                     </div>
                     <Label labelTitle="Description" labelTitleProps="text-md font-normal pb-1" labelContent={insuranceData.description.desc_text} labelContentProps="pb-[2em]" />
-                    <ButtonFilled className="mt-12 w-[30%] justify-self-end self-end flex justify-center" onClick={() => setDialogAction(InsuranceDialogActions.EDIT_INSURANCE)}>
-                        Edit Insurance
-                    </ButtonFilled>
+                    <div className="flex flex-row w-full mt-12 justify-end">
+                        <DialogTrigger className={cn("px-4 py-3 hover:bg-primary-400 hover:text-white transition duration-[300ms] ease-in-out leading-tight rounded-[4px] bg-primary-500 text-white disabled:opacity-40 flex flex-row justify-center items-center w-[20%]", className)} onClick={() => { console.log("Delete") }}>
+                            <span>Delete</span>
+                        </DialogTrigger>
+                        <Dialog>
+                            <DialogHeader>Delete Insurance?</DialogHeader>
+                            <DialogContent>This cannot be undone!</DialogContent>
+                        </Dialog>
+                        <ButtonFilled className="mt-12 w-[30%] justify-self-end self-end flex justify-center" onClick={() => setDialogAction(InsuranceDialogActions.EDIT_INSURANCE)}>
+                            Edit Insurance
+                        </ButtonFilled>
+                    </div>
+
                 </div>
             </DialogContent>
         }
@@ -406,6 +434,17 @@ export const InsuranceDialog = ({ buttonLabel, buttonIcon: ButtonIcon, currentAc
                         console.log("Error")
                         triggerGenericNotification("Error updated insurance", "danger")
                     }
+                }).then(async () => {
+                    setIsLoadingSummary(true)
+                    setIsLoadingInsurance(true)
+
+                    const fetchInsuranceSummaryData = await FetchInsuranceSummariesAPI(user?.uid!)
+                    const fetchInsuranceListData = await ListInsuranceAPI(user?.uid!, insuranceCategory)
+                    setInsuranceSummary(fetchInsuranceSummaryData.data.data)
+                    setInsuranceList(fetchInsuranceListData.data.data)
+
+                    setIsLoadingSummary(false)
+                    setIsLoadingInsurance(false)
                 }).finally(() => {
                     setIsSubmitting(false);
                     setIsOpen(false);

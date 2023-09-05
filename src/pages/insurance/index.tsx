@@ -52,8 +52,7 @@ export const Insurance = () => {
     const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
     const [filterText, setFilterText] = useState('');
     const [insuranceList, setInsuranceList] = useState<InsuranceModelMinified[]>([])
-    const [filteredInsuranceList, setFilteredInsuranceList] = useState<InsuranceModelMinified[]>([])
-    const [insuranceCategory, setInsuranceCategory] = useState<InsuranceCategory | "">(InsuranceCategory.INSURANCE_GENERAL)
+    const [insuranceCategory, setInsuranceCategory] = useState<InsuranceCategory | "">("")
 
     // Loading states
     const [isLoadingSummary, setIsLoadingSummary] = useState(true)
@@ -69,53 +68,12 @@ export const Insurance = () => {
     useEffect(() => {
         ListInsuranceAPI(user?.uid!, insuranceCategory).then((res) => {
             setInsuranceList(res.data.data)
-            setFilteredInsuranceList(res.data.data)
         }).finally(() => setIsLoadingInsurance(false))
     }, [insuranceCategory])
 
-    useEffect(() => {
-        if (filterText !== "") {
-            const filteredItems = insuranceList.filter(
-                item => item.policy_name && item.policy_name.toLowerCase().includes(filterText.toLowerCase()),
-            );
-            setFilteredInsuranceList(filteredItems)
-        }
-    }, [filterText])
-
-    const FilterComponent = ({ filterText, onFilter: handleFilter, onClear }) => (
-        <>
-            <input
-                id="search"
-                type="text"
-                placeholder="Filter By Name"
-                aria-label="Search Input"
-                onChange={handleFilter}
-                value={filterText}
-            />
-            <ButtonGhost type="button" onClick={onClear}>
-                X
-            </ButtonGhost>
-        </>
-    );
-
-    const subHeaderComponentMemo = React.useMemo(() => {
-        const handleClear = () => {
-            if (filterText) {
-                setResetPaginationToggle(!resetPaginationToggle);
-                setFilterText('');
-            }
-        };
-        return (
-            <FilterComponent filterText={filterText} onFilter={(e) => {
-                setFilterText(e.target.value)
-            }
-            } onClear={handleClear} />
-        );
-    }, [filterText, resetPaginationToggle]);
-
     return <Container className="mt-0 pb-5">
         <div className="flex flex-row gap-3 pt-3">
-            {insuranceSummary &&
+            {insuranceSummary && !isLoadingSummary &&
                 <div className="flex flex-row h-[50%] w-full gap-5">
                     <InsuranceCoverageCard className="w-[50%]" {...insuranceSummary["insurance_coverage"]} />
                     <MaxSumInsuredCard className="w-[50%]" {...insuranceSummary["maximum_sum_insured"]} />
@@ -139,16 +97,28 @@ export const Insurance = () => {
                         <TabsTrigger disabled={isLoadingInsurance} value={InsuranceCategory.INSURANCE_GENERAL}>General</TabsTrigger>
                         <TabsTrigger disabled={isLoadingInsurance} value={InsuranceCategory.INSURANCE_HEALTH}>Health</TabsTrigger>
                         <TabsTrigger disabled={isLoadingInsurance} value={InsuranceCategory.INSURANCE_LIFE}>Life</TabsTrigger>
-                        <TabsTrigger disabled={isLoadingInsurance} value={InsuranceCategory.INSURANCE_INVESTMENTS}>Investments</TabsTrigger>
+                        <TabsTrigger disabled={isLoadingInsurance} value={InsuranceCategory.INSURANCE_INVESTMENT}>Investments</TabsTrigger>
                     </TabsList>
                 </Tabs>
 
-                <InsuranceDialog buttonIcon={AiOutlinePlus} buttonLabel="Add Insurance" currentAction={InsuranceDialogActions.CREATE_INSURANCE} />
+                <InsuranceDialog buttonIcon={AiOutlinePlus} buttonLabel="Add Insurance" currentAction={InsuranceDialogActions.CREATE_INSURANCE}
+                    setInsuranceSummary={setInsuranceSummary}
+                    setInsuranceList={setInsuranceList}
+                    setIsLoadingInsurance={setIsLoadingInsurance}
+                    setIsLoadingSummary={setIsLoadingSummary}
+                    insuranceCategory={insuranceCategory}
+                />
 
             </div>
             {isLoadingInsurance
                 ? <div className="h-[40vh] w-full flex items-center justify-center"><FadeLoader /></div>
-                : <DataTable title="Insurance Table" subHeader subHeaderComponent={subHeaderComponentMemo} columns={insuranceTableColumns} data={filteredInsuranceList} pagination paginationResetDefaultPage={resetPaginationToggle} expandableRows expandableRowsComponent={ExpandedInsuranceRow} />
+                : <DataTable title="Insurance Table" columns={insuranceTableColumns} data={insuranceList} pagination paginationResetDefaultPage={resetPaginationToggle} expandableRows expandableRowsComponent={ExpandedInsuranceRow} expandableRowsComponentProps={{
+                    setInsuranceSummary,
+                    setInsuranceList,
+                    setIsLoadingInsurance,
+                    setIsLoadingSummary,
+                    insuranceCategory
+                }} />
             }
         </div>
     </Container >
