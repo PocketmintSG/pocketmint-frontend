@@ -9,16 +9,16 @@ export interface NavigationItem {
   pageLabel: string;
   icon: React.JSX.Element;
   link: string;
-  tabs: TabProps[];
+  tabs: Tab[];
 }
 
-export interface TabProps {
+export interface Tab {
   tabTitle: string;
   link: string;
-  subTabs?: SubTabProps[];
+  subTabs?: SubTab[];
 }
 
-interface SubTabProps {
+interface SubTab {
   subTabTitle: string;
   subTabLink: string;
 }

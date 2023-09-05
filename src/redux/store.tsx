@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import persistReducer from "redux-persist/es/persistReducer";
 import authSliceReducer from "./authSlice";
+import navSliceReducer from "./navSlice";
 import {
   FLUSH,
   REHYDRATE,
@@ -13,6 +14,7 @@ import {
 
 const reducers = combineReducers({
   authSliceReducer,
+  navSliceReducer
 });
 
 const persistConfig = {
