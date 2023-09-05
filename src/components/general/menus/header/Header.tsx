@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Popover } from "@headlessui/react";
 import { PopoverMenu } from "./PopoverMenu";
-import { TabProps } from "src/configs/Navigation";
+import { Tab } from "src/configs/Navigation";
 
 interface HeaderProps {
   pageTitle: string;
-  tabs: TabProps[];
+  tabs: Tab[];
   activeTab: string;
   setActiveTab: any;
 }
@@ -18,9 +18,8 @@ export const Header = ({
 }: HeaderProps) => {
   return (
     <section
-      className={`bg-header-background ${
-        tabs.length !== 0 ? "h-[15vh]" : "h-[10vh]"
-      } w-full bg-no-repeat bg-cover rounded-b-lg`}
+      className={`bg-header-background ${tabs.length !== 0 ? "h-[15vh]" : "h-[10vh]"
+        } w-full bg-no-repeat bg-cover rounded-b-lg`}
     >
       <div className="flex flex-col h-full pt-5 pl-5 pb-10 justify-between">
         <p className="text-white text-2xl font-bold mb-3">{pageTitle}</p>

@@ -1,10 +1,10 @@
 import React, { Fragment, useRef, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import { TabProps } from "src/configs/Navigation";
+import { Tab } from "src/configs/Navigation";
 
 interface PopoverMenuProps {
-  tabData: TabProps;
+  tabData: Tab;
   handleTabSwitch: any;
   isActiveTab: boolean;
 }
