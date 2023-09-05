@@ -1,4 +1,4 @@
-import { CreateInsuranceAPI, FetchInsuranceSummariesAPI, ListInsuranceAPI, ReadInsuranceAPI, UpdateInsuranceAPI } from "@/api/insurance";
+import { CreateInsuranceAPI, DeleteInsuranceAPI, FetchInsuranceSummariesAPI, ListInsuranceAPI, ReadInsuranceAPI, UpdateInsuranceAPI } from "@/api/insurance";
 import { ButtonFilled } from "@/components/general/buttons/ButtonFilled";
 import { ButtonGhost } from "@/components/general/buttons/ButtonGhost";
 import { FormInput, SelectOption } from "@/components/general/form/FormInput";
@@ -307,6 +307,32 @@ export const InsuranceDialog = (p: InsuranceDialogProps) => {
         }
 
         const ReadInsuranceForm = ({ insuranceData }: ReadInsuranceFormProps) => {
+            const handleDelete = () => {
+                console.log("Delete called")
+                console.log(insuranceId)
+                DeleteInsuranceAPI(user?.uid!, insuranceId).then(res => {
+                    if (res.status === 200) {
+                        triggerGenericNotification("Insurance deleted succesfully!", "success")
+                    } else {
+                        console.log("Error")
+                        triggerGenericNotification("Error deleting insurance", "danger")
+                    }
+                }).then(async () => {
+                    setIsLoadingSummary(true)
+                    setIsLoadingInsurance(true)
+
+                    const fetchInsuranceSummaryData = await FetchInsuranceSummariesAPI(user?.uid!)
+                    const fetchInsuranceListData = await ListInsuranceAPI(user?.uid!, insuranceCategory)
+                    setInsuranceSummary(fetchInsuranceSummaryData.data.data)
+                    setInsuranceList(fetchInsuranceListData.data.data)
+
+                    setIsLoadingSummary(false)
+                    setIsLoadingInsurance(false)
+                }).finally(() => {
+                    setIsOpen(false);
+                })
+            }
+
             return <DialogContent className="min-w-[80vw] p-[100px] overflow-y-scroll max-h-screen">
                 <DialogHeader className="text-1.5xl font-semibold">{insuranceData.policy_details.insurance_name}</DialogHeader>
                 <div className="flex flex-col">
@@ -347,12 +373,11 @@ export const InsuranceDialog = (p: InsuranceDialogProps) => {
                         <Label labelTitle="Agency" labelTitleProps="font-normal text-md pb-1" labelContent={insuranceData.agent_details.agency} />
                     </div>
                     <Label labelTitle="Description" labelTitleProps="text-md font-normal pb-1" labelContent={insuranceData.description.desc_text} labelContentProps="pb-[2em]" />
-                    <div className="flex flex-row w-full mt-12 justify-end">
-                        <DialogTrigger className={cn("px-4 py-3 hover:bg-primary-400 hover:text-white transition duration-[300ms] ease-in-out leading-tight rounded-[4px] bg-primary-500 text-white disabled:opacity-40 flex flex-row justify-center items-center w-[20%]", className)} onClick={() => { console.log("Delete") }}>
+                    <div className="flex flex-row w-full justify-end gap-2">
+                        <DialogTrigger className={cn("px-4 py-3 hover:bg-primary-500 hover:text-white border-[1px] transition duration-[300ms] ease-in-out leading-tight rounded-[4px] bg-white text-theme-black  disabled:opacity-40 flex flex-row justify-center items-center w-[20%]", className)} onClick={() => handleDelete()}>
                             <span>Delete</span>
                         </DialogTrigger>
                         <Dialog>
-                            <DialogHeader>Delete Insurance?</DialogHeader>
                             <DialogContent>This cannot be undone!</DialogContent>
                         </Dialog>
                         <ButtonFilled className="mt-12 w-[30%] justify-self-end self-end flex justify-center" onClick={() => setDialogAction(InsuranceDialogActions.EDIT_INSURANCE)}>
