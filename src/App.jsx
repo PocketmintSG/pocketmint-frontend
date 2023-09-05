@@ -19,6 +19,8 @@ import { Settings } from "./pages/settings/index";
 import { Playground } from "./pages/Playground";
 import { APIPlayground } from "./pages/APIPlayground";
 
+const env = import.meta.env.VITE_ENV;
+
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -36,8 +38,12 @@ export const router = createBrowserRouter(
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Route>
-      <Route path="/playground" element={<Playground />} />
-      <Route path="/api-playground" element={<APIPlayground />} />
+      {env === "dev" && (
+        <>
+          <Route path="/playground" element={<Playground />} />
+          <Route path="/api-playground" element={<APIPlayground />} />
+        </>
+      )}
     </Route>
   )
 );
