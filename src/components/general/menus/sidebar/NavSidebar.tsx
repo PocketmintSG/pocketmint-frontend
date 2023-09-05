@@ -7,8 +7,8 @@ import { NavigationItem } from "src/configs/Navigation";
 
 interface NavSidebarProps {
   menuItems: NavigationItem[];
-  activeSection: any;
-  setActiveSection: any;
+  activeSection: NavigationItem;
+  setActiveSection: (newSection: NavigationItem) => void
 }
 
 export const NavSidebar = ({
@@ -18,7 +18,7 @@ export const NavSidebar = ({
 }: NavSidebarProps) => {
   const handleActiveMenuItem = (menuItemLabel: string) => {
     const menuItem = menuItems.find((item) => item.menuLabel === menuItemLabel);
-    setActiveSection(menuItem);
+    setActiveSection(menuItem!);
   };
 
   return (
@@ -56,7 +56,7 @@ export const NavSidebar = ({
         {menuItems.map((item) => (
           <MenuItem
             key={item.menuLabel}
-            active={item.menuLabel === activeSection}
+            active={item.menuLabel === activeSection.menuLabel}
             icon={item.icon}
             component={<Link to={item.link} />}
             onClick={() => handleActiveMenuItem(item.menuLabel)}
