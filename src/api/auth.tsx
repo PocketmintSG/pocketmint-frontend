@@ -1,5 +1,5 @@
 import { BaseAPIResponse } from "@/types/api";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 const API_URL = BASE_URL + "/api"
