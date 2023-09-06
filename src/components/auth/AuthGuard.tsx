@@ -19,8 +19,6 @@ export const AuthGuard = () => {
     const { getAuthObject } = useAuthentication();
     const user = useSelector((state: RootState) => state.authSliceReducer.user);
     onAuthStateChanged(getAuthObject(), (firebaseUser) => {
-        console.log(user)
-        console.log(firebaseUser)
         if (!firebaseUser) {
             dispatch(clearUserData())
             return <Navigate to="/login" />;

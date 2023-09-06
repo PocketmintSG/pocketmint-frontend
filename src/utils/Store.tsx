@@ -1,8 +1,8 @@
 import { RootState } from "@/redux/store";
 import { UserDetails } from "@/types/auth";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase-config";
 
 export const getUser = (): UserDetails | null => {
   const user = useSelector((state: RootState) => state.authSliceReducer.user);
@@ -10,13 +10,10 @@ export const getUser = (): UserDetails | null => {
 }
 
 export const getAccessToken = async (): Promise<string> => {
-  const auth = getAuth()
-  const user = auth.currentUser
-  if (!user) {
-    throw new Error("User is logged out")
-  }
-  const accessToken = await user!.getIdToken(true)
-  localStorage.setItem("accessToken", accessToken)
+  onAuthStateChanged(auth, async (firebaseUser) => {
+    const accessToken = await firebaseUser!.getIdToken(true)
+    localStorage.setItem("accessToken", accessToken)
+  });
   const newToken = localStorage.getItem("accessToken") ?? "NULL";
   return newToken
 }
