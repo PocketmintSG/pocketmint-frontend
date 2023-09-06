@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import HeinrichProfilePicture from "src/assets/placeholders/profile-picture-heinrich.svg";
 import PocketmintLogo from "src/assets/common/Logo_PocketMint.svg";
 import { NavigationItem } from "src/configs/Navigation";
 import { getUser } from "@/utils/Store";
+import { BiLogOut } from "react-icons/bi";
+import { useAuthentication } from "@/hooks/useAuthentication";
 
 interface NavSidebarProps {
     menuItems: NavigationItem[];
@@ -22,6 +23,7 @@ export const NavSidebar = ({
         const menuItem = menuItems.find((item) => item.menuLabel === menuItemLabel);
         setActiveSection(menuItem!);
     };
+    const { signOutCall } = useAuthentication();
 
     return (
         <Sidebar
@@ -66,6 +68,7 @@ export const NavSidebar = ({
                         <p className="font-medium text-grey-900">{item.menuLabel}</p>
                     </MenuItem>
                 ))}
+                <MenuItem className="self-end" onClick={async () => await signOutCall()} icon={<BiLogOut />}>Logout</MenuItem>
             </Menu>
         </Sidebar>
     );
