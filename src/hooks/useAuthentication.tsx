@@ -193,7 +193,7 @@ export const useAuthentication = () => {
     setIsLoading(true);
     try {
       await signOut(auth);
-      dispatch(clearUserData(null));
+      dispatch(clearUserData());
     } catch (err) {
       console.log(err);
     } finally {

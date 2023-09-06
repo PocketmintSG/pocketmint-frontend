@@ -18,9 +18,10 @@ import { RootState } from "src/redux/store";
 export const AuthGuard = () => {
     const { getAuthObject } = useAuthentication();
     const user = useSelector((state: RootState) => state.authSliceReducer.user);
-    onAuthStateChanged(getAuthObject(), (user) => {
-        if (!user) {
-            triggerGenericNotification("Please relogin into Pocketmint!", "warning")
+    onAuthStateChanged(getAuthObject(), (firebaseUser) => {
+        console.log(user)
+        console.log(firebaseUser)
+        if (!firebaseUser) {
             dispatch(clearUserData())
             return <Navigate to="/login" />;
         }
