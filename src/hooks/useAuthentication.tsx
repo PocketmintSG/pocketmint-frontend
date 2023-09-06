@@ -46,8 +46,7 @@ export const useAuthentication = () => {
             code: "auth/user-not-verified",
           };
         }
-        const userAccessToken = await user.getIdToken();
-        const apiRes = await loginUserAPI(userAccessToken)
+        const apiRes = await loginUserAPI(accessToken)
         if (apiRes.data.status !== StatusEnum.SUCCESS) {
           return {
             isSuccessful: false,

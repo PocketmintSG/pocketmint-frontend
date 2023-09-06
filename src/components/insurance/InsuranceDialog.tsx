@@ -117,7 +117,6 @@ const blankInsuranceCoverageDetail: InsuranceCoverageDetail = { insuranceType: "
 
 
 export const InsuranceDialog = (p: InsuranceDialogProps) => {
-    console.log(p)
     const { buttonLabel, buttonIcon: ButtonIcon, currentAction, className = "", ...restProps } = p
     const user = getUser()
     const [isOpen, setIsOpen] = useState<Boolean>(false)
@@ -308,8 +307,6 @@ export const InsuranceDialog = (p: InsuranceDialogProps) => {
 
         const ReadInsuranceForm = ({ insuranceData }: ReadInsuranceFormProps) => {
             const handleDelete = () => {
-                console.log("Delete called")
-                console.log(insuranceId)
                 DeleteInsuranceAPI(user?.uid!, insuranceId).then(res => {
                     if (res.status === 200) {
                         triggerGenericNotification("Insurance deleted succesfully!", "success")
