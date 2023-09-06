@@ -6,16 +6,16 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 const API_URL = BASE_URL + "/api"
 
 
-export const SettingsUpdatePasswordAPI = (email: string, oldPassword: string, newPassword: string, confirmNewPassword: string): Promise<AxiosResponse<BaseAPIResponse>> => {
+export const SettingsUpdatePasswordAPI = async (email: string, oldPassword: string, newPassword: string, confirmNewPassword: string): Promise<AxiosResponse<BaseAPIResponse>> => {
   return axios.post(`${API_URL}/profile_change_password`, {
     "email": email,
     "old_password": oldPassword,
     "new_password": newPassword,
     "confirm_new_password": confirmNewPassword
-  }, getRequestHeader())
+  }, await getRequestHeader())
 }
 
-export const SettingsUpdateProfileAPI = (uid: string, username: string, profilePictureURL: string, firstName: string, lastName: string, email: string) => {
+export const SettingsUpdateProfileAPI = async (uid: string, username: string, profilePictureURL: string, firstName: string, lastName: string, email: string) => {
   return axios.post(`${API_URL}/update_profile`, {
     uid,
     username,
@@ -23,5 +23,5 @@ export const SettingsUpdateProfileAPI = (uid: string, username: string, profileP
     "last_name": lastName,
     email,
     "profile_picture_url": profilePictureURL,
-  }, getRequestHeader())
+  }, await getRequestHeader())
 }

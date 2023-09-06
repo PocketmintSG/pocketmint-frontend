@@ -3,11 +3,11 @@ import { API_URL, getRequestHeader } from "@/utils/api"
 import axios from "axios"
 
 export const CreateInsuranceAPI = async (insuranceData: InsuranceModel) => {
-    return axios.post(API_URL + "/create_insurance", insuranceData, getRequestHeader())
+    return axios.post(API_URL + "/create_insurance", insuranceData, await getRequestHeader())
 }
 
 export const ReadInsuranceAPI = async (insuranceId: string) => {
-    return axios.get(API_URL + "/get_insurance/" + insuranceId, getRequestHeader())
+    return axios.get(API_URL + "/get_insurance/" + insuranceId, await getRequestHeader())
 }
 
 export const ListInsuranceAPI = async (userId: string, insuranceCategory: InsuranceCategory | "") => {
@@ -15,25 +15,25 @@ export const ListInsuranceAPI = async (userId: string, insuranceCategory: Insura
     return axios.post(API_URL + "/list_insurance", {
         "user_id": userId,
         "insurance_category": insuranceCategory
-    }, getRequestHeader())
+    }, await getRequestHeader())
 }
 export const UpdateInsuranceAPI = async (userId: string, insuranceId: string, insuranceData: InsuranceModel) => {
     return axios.post(API_URL + "/update_insurance", {
         "user_id": userId,
         "insurance_id": insuranceId,
         "updated_details": insuranceData
-    }, getRequestHeader())
+    }, await getRequestHeader())
 }
 
 export const DeleteInsuranceAPI = async (userId: string, insuranceId: string) => {
     return axios.post(API_URL + "/delete_insurance", {
         "user_id": userId,
         "insurance_id": insuranceId
-    }, getRequestHeader())
+    }, await getRequestHeader())
 }
 
 export const FetchInsuranceSummariesAPI = async (userId: string) => {
     return axios.post(API_URL + "/get_insurance_summaries", {
         "user_id": userId
-    }, getRequestHeader())
+    }, await getRequestHeader())
 }

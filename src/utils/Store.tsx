@@ -9,7 +9,7 @@ export const getUser = (): UserDetails | null => {
   return user;
 }
 
-export const getAccessToken = async (): string => {
+export const getAccessToken = async (): Promise<string> => {
   const auth = getAuth()
   const user = auth.currentUser
   if (!user) {
