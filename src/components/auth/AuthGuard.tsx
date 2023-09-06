@@ -1,5 +1,8 @@
+import { useAuthentication } from "@/hooks/useAuthentication";
+import { clearUserData } from "@/redux/authSlice";
 import { setActiveSection, setActiveTab } from "@/redux/navSlice";
-import { getAuth } from "firebase/auth";
+import { triggerGenericNotification } from "@/utils/Notifications";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
@@ -13,9 +16,15 @@ import {
 import { RootState } from "src/redux/store";
 
 export const AuthGuard = () => {
+    const { getAuthObject } = useAuthentication();
     const user = useSelector((state: RootState) => state.authSliceReducer.user);
-    const auth = getAuth()
-    const firebaseUser = auth.currentUser
+    onAuthStateChanged(getAuthObject(), (user) => {
+        if (!user) {
+            triggerGenericNotification("Please relogin into Pocketmint!", "warning")
+            dispatch(clearUserData())
+            return <Navigate to="/login" />;
+        }
+    });
     const navState = useSelector((state: RootState) => state.navSliceReducer)
     const dispatch = useDispatch()
 
@@ -29,7 +38,7 @@ export const AuthGuard = () => {
         ))
     };
 
-    if (!user || !firebaseUser) {
+    if (!user) {
         return <Navigate to="/login" />;
     }
 

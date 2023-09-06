@@ -227,6 +227,10 @@ export const useAuthentication = () => {
     setHasBegunResetPasswordProcess(false);
   };
 
+  const getAuthObject = () => {
+    return auth;
+  }
+
   return {
     isLoading,
     signInCall,
@@ -238,5 +242,6 @@ export const useAuthentication = () => {
     getResetPasswordProcessStatus,
     authenticateWithGoogleCall,
     readGoogleToken,
+    getAuthObject,
   };
 };
