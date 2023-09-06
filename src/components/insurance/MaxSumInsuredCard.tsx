@@ -15,10 +15,6 @@ export interface InsuranceCoverageCardProps {
 }
 
 export const MaxSumInsuredCard = ({ life, "accident_and_health": accidentAndHealth, investments, general, className }: InsuranceCoverageCardProps) => {
-    console.log(life)
-    console.log(accidentAndHealth)
-    console.log(investments)
-    console.log(general)
     return <Card className={className}>
         <CardHeader>
             <CardTitle className="text-lg">Maximum Sum Insured</CardTitle>
