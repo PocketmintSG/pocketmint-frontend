@@ -58,7 +58,7 @@ export const Login = () => {
               duration: 3000,
             },
           });
-          navigate("/dashboard");
+          navigate("/");
         } else if (res.error.code === "auth/user-not-found") {
           Store.addNotification({
             title: "User not found!",
@@ -138,7 +138,7 @@ export const Login = () => {
               duration: 3000,
             },
           });
-          navigate("/dashboard");
+          navigate("/");
         } else if (res.error && res.code && res.code === "auth/user-not-defined") {
           return;
         } else if (res.error) {

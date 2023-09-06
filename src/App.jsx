@@ -3,6 +3,7 @@ import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
+  redirect,
 } from "react-router-dom";
 import { AuthGuard } from "./components/auth/AuthGuard";
 import { GuestGuard } from "./components/auth/GuestGuard";
@@ -25,9 +26,10 @@ export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route element={<AuthGuard />}>
-        <Route path="/" element={<Navigate to="/dashboard" />} />
+        {/* <Route path="/" element={<Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/expenses" element={<Expenses />} />
+        <Route path="/expenses" element={<Expenses />} /> */}
+        <Route path="/" element={<Navigate to="/insurance" />} />
         <Route path="/insurance" element={<Insurance />} />
         <Route path="/settings" element={<Settings />} />
       </Route>
@@ -44,6 +46,7 @@ export const router = createBrowserRouter(
           <Route path="/api-playground" element={<APIPlayground />} />
         </>
       )}
+      <Route path="*" element={<Navigate to="/" />} />
     </Route>
   )
 );

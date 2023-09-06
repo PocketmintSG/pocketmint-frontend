@@ -7,7 +7,7 @@ export const GuestGuard = () => {
   const user = useSelector((state: RootState) => state.authSliceReducer.user);
 
   if (user) {
-    return <Navigate to="/dashboard" />;
+    return <Navigate to="/" />;
   }
 
   return (

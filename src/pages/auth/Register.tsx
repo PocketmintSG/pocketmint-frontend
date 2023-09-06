@@ -123,7 +123,7 @@ export const Register = () => {
               duration: 3000,
             },
           });
-          navigate("/dashboard");
+          navigate("/");
         } else if (res.error) {
           throw new Error(res.error);
         }

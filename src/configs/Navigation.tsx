@@ -24,60 +24,60 @@ interface SubTab {
 }
 
 export const NavigationItems: NavigationItem[] = [
-  {
-    menuLabel: "Investments",
-    pageLabel: "Your Investments",
-    icon: <AiOutlineStock />,
-    link: "/dashboard",
-    tabs: [
-      {
-        tabTitle: "Overview",
-        link: "/",
-      },
-      {
-        tabTitle: "Transactions",
-        link: "/",
-      },
-      {
-        tabTitle: "Analysis",
-        link: "/",
-        subTabs: [
-          {
-            subTabTitle: "Report",
-            subTabLink: "/",
-          },
-          {
-            subTabTitle: "Performance",
-            subTabLink: "/",
-          },
-          {
-            subTabTitle: "Analysis",
-            subTabLink: "/",
-          },
-          {
-            subTabTitle: "Earnings",
-            subTabLink: "/",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    menuLabel: "Expenses",
-    pageLabel: "Your Expenses",
-    icon: <MdAttachMoney />,
-    link: "/expenses",
-    tabs: [
-      {
-        tabTitle: "Overview",
-        link: "/",
-      },
-      {
-        tabTitle: "Transactions",
-        link: "/",
-      },
-    ],
-  },
+  // {
+  //   menuLabel: "Investments",
+  //   pageLabel: "Your Investments",
+  //   icon: <AiOutlineStock />,
+  //   link: "/dashboard",
+  //   tabs: [
+  //     {
+  //       tabTitle: "Overview",
+  //       link: "/",
+  //     },
+  //     {
+  //       tabTitle: "Transactions",
+  //       link: "/",
+  //     },
+  //     {
+  //       tabTitle: "Analysis",
+  //       link: "/",
+  //       subTabs: [
+  //         {
+  //           subTabTitle: "Report",
+  //           subTabLink: "/",
+  //         },
+  //         {
+  //           subTabTitle: "Performance",
+  //           subTabLink: "/",
+  //         },
+  //         {
+  //           subTabTitle: "Analysis",
+  //           subTabLink: "/",
+  //         },
+  //         {
+  //           subTabTitle: "Earnings",
+  //           subTabLink: "/",
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   menuLabel: "Expenses",
+  //   pageLabel: "Your Expenses",
+  //   icon: <MdAttachMoney />,
+  //   link: "/expenses",
+  //   tabs: [
+  //     {
+  //       tabTitle: "Overview",
+  //       link: "/",
+  //     },
+  //     {
+  //       tabTitle: "Transactions",
+  //       link: "/",
+  //     },
+  //   ],
+  // },
   {
     menuLabel: "Insurance",
     pageLabel: "Your Insurance",
