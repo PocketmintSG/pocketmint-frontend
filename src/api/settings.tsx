@@ -1,9 +1,7 @@
 import { BaseAPIResponse } from "@/types/api";
-import { getRequestHeader } from "@/utils/api";
+import { API_URL, getRequestHeader } from "@/utils/api";
 import axios, { AxiosResponse } from "axios";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
-const API_URL = BASE_URL + "/api"
 
 
 export const SettingsUpdatePasswordAPI = async (email: string, oldPassword: string, newPassword: string, confirmNewPassword: string): Promise<AxiosResponse<BaseAPIResponse>> => {
