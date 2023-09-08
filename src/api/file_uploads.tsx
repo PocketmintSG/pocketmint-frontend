@@ -1,8 +1,6 @@
-import { getRequestHeader } from "@/utils/api";
+import { API_URL, getRequestHeader } from "@/utils/api";
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
-const API_URL = BASE_URL + "/api"
 
 export const UploadImageAPI = async (file: File) => {
   const formData = new FormData()

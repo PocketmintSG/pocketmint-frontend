@@ -1,8 +1,7 @@
 import { BaseAPIResponse } from "@/types/api";
+import { API_URL } from "@/utils/api";
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
-const API_URL = BASE_URL + "/api"
 
 export const loginUserAPI = async (userToken: string): Promise<BaseAPIResponse> => {
   return axios.post(API_URL + "/login", {
