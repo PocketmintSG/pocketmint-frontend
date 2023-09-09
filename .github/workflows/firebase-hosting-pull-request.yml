@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Make env variables
         run: |
-          echo 'VITE_ENV= ${{ secrets.VITE_ENV}}'>>.env
-          echo 'VITE_ENV= ${{ secrets.VITE_ENV}}'>>.env.production
+          echo 'VITE_ENV=${{ secrets.VITE_ENV }}' >> .env
+          echo 'VITE_ENV=${{ secrets.VITE_ENV }}' >> .env.production
       - uses: actions/checkout@v3
       - run: yarn install --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
