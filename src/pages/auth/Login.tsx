@@ -193,6 +193,8 @@ export const Login = () => {
               >
                 <div className="flex flex-row items-center content-center justify-center gap-2">
                   <img src={GoogleLogoUrl} />
+                  {import.meta.env.VITE_BACKEND_URL_DEV}
+                  {import.meta.env.ENV}
                   Sign in with Google
                 </div>
               </ButtonGhost>
