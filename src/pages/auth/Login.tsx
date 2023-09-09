@@ -188,7 +188,6 @@ export const Login = () => {
                   {import.meta.env.VITE_ENV ?? ":("}
                   {import.meta.env.ENV ?? ":("}
                   {import.meta.env.MODE ?? ":("}
-                  test
                 </p>
               </div>
               <ButtonGhost
