@@ -185,8 +185,7 @@ export const Login = () => {
                 <p className="text-2xl font-medium">Welcome back</p>
                 <p className="text-xl font-normal text-darkGrey-600 whitespace-nowrap">
                   Continue your financial journey with us.
-                  {process.env.BASE_URL_PROD ?? "None"}
-                  {process.env.ENV ?? "None"}
+                  {import.meta.env.VITE_ENV}
                   test
                 </p>
               </div>
