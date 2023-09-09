@@ -1,6 +1,9 @@
 import { InsuranceCoverageItemWrapper } from "@/components/insurance/InsuranceCoverageItemWrapper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
+import { BiSolidBuoy, BiSolidShieldPlus } from "react-icons/bi";
+import { BsFillHeartPulseFill, BsShieldFillPlus } from "react-icons/bs";
+import { MdOtherHouses } from "react-icons/md";
 
 export interface InsuranceCoverageCardProps {
     "total_annual_premiums": number
@@ -36,7 +39,7 @@ export const InsuranceCoverageCard = ({ total_annual_premiums: totalAnnualPremiu
             </div>
             <div className="flex flex-col gap-2 w-full">
                 <div className="flex flex-row w-full">
-                    <img src="/src/assets/insurance/LifeLogo.svg" alt="Life Logo" className="w-[60px] h-[60px]" />
+                    <BiSolidBuoy className="w-[60px] h-[60px]" color="#5585FF" />
                     <div className="ml-10">
                         <span className="font-semibold text-md">Life</span>
                         <ul className="grid grid-cols-2 grid-rows-2">
@@ -47,7 +50,7 @@ export const InsuranceCoverageCard = ({ total_annual_premiums: totalAnnualPremiu
                     </div>
                 </div>
                 <div className="flex flex-row w-full">
-                    <img src="/src/assets/insurance/AccidentAndHealthLogo.svg" alt="Accident and Health Logo" className="w-[60px] h-[60px]" />
+                    <BsFillHeartPulseFill className="w-[60px] h-[60px]" color="#F95757" />
                     <div className="ml-10">
                         <span className="font-semibold text-md">Accident & Health</span>
                         <ul className="grid grid-cols-2 grid-rows-2">
@@ -60,7 +63,7 @@ export const InsuranceCoverageCard = ({ total_annual_premiums: totalAnnualPremiu
                 </div>
 
                 <div className="flex flex-row w-full">
-                    <img src="/src/assets/insurance/InsuranceLogo.svg" alt="Insurance Logo" className="w-[60px] h-[60px]" />
+                    <BiSolidShieldPlus className="w-[60px] h-[60px]" color="#00E709" />
                     <div className="ml-10">
                         <span className="font-semibold text-md">Investments</span>
                         <ul className="grid grid-cols-2 grid-rows-2">
@@ -72,7 +75,7 @@ export const InsuranceCoverageCard = ({ total_annual_premiums: totalAnnualPremiu
                 </div>
 
                 <div className="flex flex-row w-full">
-                    <img src="/src/assets/insurance/GeneralLogo.svg" alt="General Insurance Logo" className="w-[60px] h-[60px]" />
+                    <MdOtherHouses className="w-[60px] h-[60px]" color="#00D1FF" />
                     <div className="ml-10">
                         <span className="font-semibold text-md">General</span>
                         <ul className="grid grid-cols-2 grid-rows-2">
