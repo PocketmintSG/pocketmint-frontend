@@ -18,3 +18,10 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_POCKETMINT_FRONTEND }}"
           channelId: live
           projectId: pocketmint-frontend
+      - name: Create env file
+        run: |
+          touch .env
+          echo API_ENDPOINT=${{ secrets.VITE_BASE_URL_DEV}} >> .env
+          echo API_ENDPOINT=${{ secrets.VITE_BASE_URL_PROD}} >> .env
+          echo API_ENDPOINT=${{ secrets.VITE_ENV}} >> .env
+          cat .env
