@@ -9,12 +9,11 @@ jobs:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     steps:
-      - name: Make env variables
-        run: |
-          echo 'VITE_ENV=${{ secrets.VITE_ENV }}' >> .env
-          echo 'VITE_ENV=${{ secrets.VITE_ENV }}' >> .env.production
       - uses: actions/checkout@v3
-      - run: yarn install --frozen-lockfile && yarn build
+      - run: |
+          echo 'VITE_ENV=${{ secrets.VITE_ENV }}' >> .env
+          echo 'VITE_ENV=${{ secrets.VITE_ENV }}' >> .env.production 
+          yarn install --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
