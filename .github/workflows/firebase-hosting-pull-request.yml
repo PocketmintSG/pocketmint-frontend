@@ -11,9 +11,9 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo VITE_BASE_URL_DEV=${{ secrets.VITE_BASE_URL_DEV}} >> .env
-          echo VITE_BASE_URL_PROD=${{ secrets.VITE_BASE_URL_PROD}} >> .env
-          echo VITE_ENV=${{ secrets.VITE_ENV}} >> .env
+          echo BASE_URL_DEV=${{ secrets.BASE_URL_DEV}} >> .env
+          echo BASE_URL_PROD=${{ secrets.BASE_URL_PROD}} >> .env
+          echo ENV=${{ secrets.ENV}} >> .env
           cat .env
       - uses: actions/checkout@v3
       - run: yarn install --frozen-lockfile && yarn build
