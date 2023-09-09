@@ -185,8 +185,6 @@ export const Login = () => {
                 <p className="text-2xl font-medium">Welcome back</p>
                 <p className="text-xl font-normal text-darkGrey-600 whitespace-nowrap">
                   Continue your financial journey with us.
-                  {import.meta.env.VITE_BACKEND_URL_PROD}
-                  {import.meta.env.VITE_ENV}
                 </p>
               </div>
               <ButtonGhost
