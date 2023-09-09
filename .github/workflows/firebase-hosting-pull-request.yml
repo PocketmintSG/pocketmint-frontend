@@ -3,6 +3,10 @@
 
 name: Deploy to Firebase Hosting on PR
 "on": pull_request
+env:
+  - VITE_BASE_URL_DEV=http://127.0.0.1:8000
+  - VITE_BASE_URL_PROD=http://18.141.203.207/
+  - VITE_ENV=prod
 jobs:
   build_and_preview:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
@@ -11,9 +15,9 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo VITE_BASE_URL_DEV=${{ secrets.VITE_BASE_URL_DEV}} >> .env
-          echo VITE_BASE_URL_PROD=${{ secrets.VITE_BASE_URL_PROD}} >> .env
-          echo VITE_ENV=${{ secrets.VITE_ENV}} >> .env
+          echo VITE_BASE_URL_DEV=$VITE_BASE_URL_DEV >> .env
+          echo VITE_BASE_URL_PROD=$VITE_BASE_URL_PROD >> .env
+          echo VITE_ENV=$VITE_ENV >> .env
           cat .env
       - uses: actions/checkout@v3
       - run: yarn install --frozen-lockfile && yarn build
