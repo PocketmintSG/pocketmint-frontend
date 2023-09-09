@@ -185,6 +185,8 @@ export const Login = () => {
                 <p className="text-2xl font-medium">Welcome back</p>
                 <p className="text-xl font-normal text-darkGrey-600 whitespace-nowrap">
                   Continue your financial journey with us.
+                  {import.meta.env.VITE_BACKEND_URL_PROD}
+                  {import.meta.env.VITE_ENV}
                 </p>
               </div>
               <ButtonGhost
@@ -193,8 +195,6 @@ export const Login = () => {
               >
                 <div className="flex flex-row items-center content-center justify-center gap-2">
                   <img src={GoogleLogoUrl} />
-                  {import.meta.env.VITE_BACKEND_URL_DEV}
-                  {import.meta.env.ENV}
                   Sign in with Google
                 </div>
               </ButtonGhost>
