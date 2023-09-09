@@ -3,10 +3,7 @@
 
 name: Deploy to Firebase Hosting on PR
 "on": pull_request
-env: 
-  BASE_URL_DEV=http://127.0.0.1:8000
-  BASE_URL_PROD=http://18.141.203.207/
-  ENV=prod
+env: ENV=prod
 jobs:
   build_and_preview:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"

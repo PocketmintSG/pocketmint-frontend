@@ -6,10 +6,7 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - main
-env: 
-  BASE_URL_DEV=http://127.0.0.1:8000
-  BASE_URL_PROD=http://18.141.203.207/
-  ENV=prod
+env: ENV=prod
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
