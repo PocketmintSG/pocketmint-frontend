@@ -1,4 +1,12 @@
-# Setting Environment Variables
+# Introduction
+
+Pocketmint is split into two parts: A frontend repository and a backend repository. This is the frontend repository.
+
+## Frameworks and Language
+
+The frontend repository is written in the React framework, bootstrapped using Vite. It relies heavily on TailwindCSS and RadixUI for styling and component design. Type safety is enforced by using TypeScript.
+
+## Setting Environment Variables
 
 Variables that belong in an `.env` file are handled by Github secrets. Firebase hosting does not directly manage secrets/environment variables. As such, we must assign them in Repository > Settings > Secrets and Variables. In addition, we must allow the build to access these variables by creating a `.env` during the CI/CD process. Refer to `.github/firebase-hosting-merge.yml` and `.github/firebase-hosting-pull-request.yml`: Environment variables are retrieved from Github Secrets, before being `echo`'d into a `.env` in the build.
 
